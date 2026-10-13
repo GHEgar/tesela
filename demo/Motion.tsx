@@ -8,7 +8,7 @@ import type { Settings } from './App.js';
 const CYCLE = ['search', 'download', 'table', 'pin', 'alert', 'home', 'filter', 'eye', 'check', 'menu', 'play', 'settings', 'user', 'mail'];
 const PAIRS: readonly (readonly [string, string])[] = [
     ['menu', 'close'], ['play', 'pause'], ['chevronDown', 'chevronUp'], ['eye', 'eyeOff'], ['plus', 'minus'],
-    ['download', 'check'], ['lock', 'unlock'], ['undo', 'redo'], ['expand', 'collapse'],
+    ['download', 'check'], ['lock', 'unlock'], ['undo', 'redo'], ['expand', 'collapse'], ['zoomIn', 'zoomOut'],
 ];
 
 const icon = (name: string): IconDefinition => {
@@ -23,7 +23,7 @@ function Pair({ pair, settings }: { readonly pair: readonly [string, string]; re
     return (
         <button type="button" className="pair" onClick={() => setSecond((s) => !s)} aria-label={`${a} a ${b}`}>
             <IconTransition icon={icon(second ? b : a)} {...settings} size={36} />
-            {a} ⇄ {b}
+            <span>{a} ⇄ {b}</span>
         </button>
     );
 }

@@ -53,8 +53,8 @@ export const collapse: IconDefinition = {
     name: 'collapse',
     label: 'Reducir',
     build: (gap) => ({
-        strokes: [[line(14, 4, 14, 10), line(14, 10, 12, 12), line(12, 12, 10, 14), line(10, 14, 10, 20)]],
-        detail: line(14 + gap * Math.SQRT2, 10, 21, 10),
+        strokes: [[line(15, 3.5, 15, 9), line(15, 9, 12, 12), line(12, 12, 9, 15), line(9, 15, 9, 20.5)]],
+        detail: line(15 + gap * Math.SQRT2, 9, 20.5, 9),
     }),
 };
 

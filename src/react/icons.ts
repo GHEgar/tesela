@@ -1,5 +1,5 @@
 import {
-    alert, arrowLeft, arrowRight, basemap, chat, check, chevronDown, chevronLeft, chevronRight, chevronUp, circle, close, collapse, compass, copy, cube, documentIcon, downloadIcon, drone, edit, expand, eye, eyeOff, filter, folder, globe, history, home, hummingbird, info, layers, link, lock, mail, menu, minus, pause, phone, pin, play, plus, point, polygon, polyline, redo, refresh, ruler, search, send, settings, share, spinner, stats, table, trash, undoIcon, unlock, upload, user, zoomOut,
+    alert, arrowLeft, arrowRight, basemap, chat, check, chevronDown, chevronLeft, chevronRight, chevronUp, circle, close, collapse, compass, copy, cube, documentIcon, downloadIcon, drone, edit, expand, eye, eyeOff, filter, folder, globe, history, home, hummingbird, info, layers, link, lock, mail, menu, minus, pause, phone, pin, play, plus, point, polygon, polyline, redo, refresh, ruler, search, send, settings, share, spinner, stats, table, trash, undoIcon, unlock, upload, user, zoomIn, zoomOut,
 } from 'tesela';
 import { createIcon } from './IconSvg.js';
 
@@ -15,6 +15,7 @@ export const Expand = createIcon(expand);
 export const Collapse = createIcon(collapse);
 export const Search = createIcon(search);
 export const ZoomOut = createIcon(zoomOut);
+export const ZoomIn = createIcon(zoomIn);
 export const Close = createIcon(close);
 export const Plus = createIcon(plus);
 export const Minus = createIcon(minus);

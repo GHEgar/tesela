@@ -122,11 +122,21 @@ export const chat: IconDefinition = {
 export const globe: IconDefinition = {
     name: 'globe',
     label: 'Sitio y redes',
-    build: () => ({
-        strokes: [ring(12, 12, 8)],
-        detail: arc(20, 12, 8, 145, 215),
-        body: circleBody(12, 12, 8),
-    }),
+    build: (gap) => {
+        const bulge = 2;
+        const radius = (81 + bulge * bulge) / (2 * bulge);
+        const tip = (Math.atan2(9, radius - bulge) * 180) / Math.PI;
+        return {
+            strokes: [[
+                arc(12, 12, 9, 270, 450),
+                arc(12 + bulge - radius, 12, radius, tip, -tip),
+                arc(12 - bulge + radius, 12, radius, 180 + tip, 180 - tip),
+                arc(12, 12, 9, 90, 270),
+            ]],
+            detail: line(12 + bulge + gap, 12, 21 - gap, 12),
+            body: circleBody(12, 12, 9),
+        };
+    },
 };
 
 export const objects = [table, eye, eyeOff, pin, user, documentIcon, folder, phone, mail, chat, globe];

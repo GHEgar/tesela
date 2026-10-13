@@ -40,6 +40,16 @@ export const zoomOut: IconDefinition = {
     }),
 };
 
+export const zoomIn: IconDefinition = {
+    name: 'zoomIn',
+    label: 'Acercar',
+    build: () => ({
+        strokes: [[line(20, 20, ...lens), arc(10.5, 10.5, 6.5, 45, 165), arc(10.5, 10.5, 6.5, 165, 285), arc(10.5, 10.5, 6.5, 285, 405)]],
+        detail: line(10.5, 8, 10.5, 13),
+        body: circleBody(10.5, 10.5, 6.5),
+    }),
+};
+
 export const close: IconDefinition = {
     name: 'close',
     label: 'Cerrar',
@@ -198,6 +208,6 @@ export const settings: IconDefinition = {
 };
 
 export const actions = [
-    search, zoomOut, close, plus, minus, filter, downloadIcon, upload, edit, trash, copy, refresh,
+    search, zoomIn, zoomOut, close, plus, minus, filter, downloadIcon, upload, edit, trash, copy, refresh,
     undoIcon, redo, history, send, share, link, settings,
 ];

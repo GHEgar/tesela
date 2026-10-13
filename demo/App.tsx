@@ -88,7 +88,7 @@ export function App(): ReactNode {
                         {icons.map((icon) => (
                             <div key={icon.name} className="cell">
                                 <IconSvg definition={icon} {...settings} title={icon.label} />
-                                {icon.name}
+                                <span>{icon.name}</span>
                             </div>
                         ))}
                     </div>

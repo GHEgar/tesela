@@ -11,7 +11,7 @@ Primera versión: la identidad de cinco líneas llevada a un paquete.
 
 ### Agregado
 
-- 60 íconos en seis grupos: navegación, acciones, estado, objetos, mapa y el colibrí.
+- 61 íconos en seis grupos: navegación, acciones, estado, objetos, mapa y el colibrí.
 - Core sin dependencias: geometría de rectas y arcos, herramientas de dibujo (`line`, `arc`, `part`,
   `split`, `clearArc`, espejo y giro), `resolveIcon` con uniones y teselado memoizados por trazo y
   junta, `iconParts` y `renderIcon`.

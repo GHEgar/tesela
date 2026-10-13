@@ -1,5 +1,6 @@
 import { arc, circleBody, line, part, rect, rectBody, ring } from '../draw.js';
-import type { IconDefinition } from '../geometry.js';
+import { polar, unit } from '../geometry.js';
+import type { IconDefinition, Point } from '../geometry.js';
 
 export const layers: IconDefinition = {
     name: 'layers',
@@ -15,10 +16,11 @@ export const layers: IconDefinition = {
 export const basemap: IconDefinition = {
     name: 'basemap',
     label: 'Mapa base',
+    freeAngles: true,
     build: (gap) => ({
-        strokes: [rect(3, 5, 21, 19)],
+        strokes: [[line(6, 5, 18, 5), line(18, 5, 21.5, 19), line(21.5, 19, 2.5, 19), line(2.5, 19, 6, 5)]],
         detail: line(12, 5 + gap, 12, 19 - gap),
-        body: rectBody(3, 5, 21, 19),
+        body: [[6, 5], [18, 5], [21.5, 19], [2.5, 19]],
     }),
 };
 
@@ -82,8 +84,8 @@ export const drone: IconDefinition = {
     name: 'drone',
     label: 'Dron',
     build: (gap) => ({
-        strokes: [[line(2.5, 7, 8.5, 7), line(8.5, 7, 8.5, 12), line(8.5, 12, 15.5, 12), line(15.5, 12, 15.5, 7)]],
-        detail: line(15.5 + gap, 7, 21.5, 7),
+        strokes: [[line(3, 7, 8, 7), line(8, 7, 12, 11), line(12, 11, 16, 7), line(16, 7, 21, 7)]],
+        detail: line(9, 11 + gap, 15, 11 + gap),
     }),
 };
 
@@ -99,10 +101,11 @@ export const stats: IconDefinition = {
 export const cube: IconDefinition = {
     name: 'cube',
     label: 'Cubo',
+    freeAngles: true,
     build: (gap) => ({
-        strokes: [rect(4, 8, 16, 20)],
-        detail: part(16, 8, 21, 3, gap),
-        body: rectBody(4, 8, 16, 20),
+        strokes: [[line(12, 12, 4, 7.5), line(4, 7.5, 4, 16.5), line(4, 16.5, 12, 21), line(12, 21, 12, 12)]],
+        detail: part(12, 12, 20, 7.5, gap),
+        body: [[12, 12], [4, 7.5], [4, 16.5], [12, 21]],
     }),
 };
 
@@ -121,11 +124,23 @@ export const hummingbird: IconDefinition = {
     name: 'hummingbird',
     label: 'Colibrí',
     freeAngles: true,
-    build: (gap) => ({
-        strokes: [[arc(15, 8, 2.5, 200, 380), line(17.35, 8.86, 6, 20), line(6, 20, 4, 15.5), line(4, 15.5, 12.65, 7.14)]],
-        detail: line(17.7 + gap, 7.2, 22.5, 6),
-        body: [[12.65, 7.14], [15, 5.5], [17.35, 8.86], [6, 20], [4, 15.5]],
-    }),
+    build: (gap) => {
+        const head: Point = [16, 8];
+        const front = polar(head, 2.4, 345);
+        const back = polar(head, 2.4, 200);
+        const throat = polar(head, 2.4, 110);
+        const tail: Point = [4.5, 20];
+        const along = 0.32;
+        const root: Point = [back[0] + (tail[0] - back[0]) * along, back[1] + (tail[1] - back[1]) * along];
+        const [nx, ny] = unit(back[1] - tail[1], tail[0] - back[0]);
+        const lift = gap + 0.2;
+        const start: Point = [root[0] + nx * lift, root[1] + ny * lift];
+        return {
+            strokes: [[line(22.5, 5.6, ...front), arc(16, 8, 2.4, 345, 200), line(...back, ...tail), line(...tail, ...throat)]],
+            detail: line(...start, start[0] - 4.5, start[1] - 4.5),
+            body: [front, polar(head, 2.4, 270), back, tail, throat],
+        };
+    },
 };
 
 export const mapIcons = [layers, basemap, ruler, point, polyline, polygon, circle, drone, stats, cube, compass];
