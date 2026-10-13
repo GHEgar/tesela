@@ -125,20 +125,15 @@ export const hummingbird: IconDefinition = {
     label: 'Colibrí',
     freeAngles: true,
     build: (gap) => {
-        const head: Point = [16, 8];
-        const front = polar(head, 2.4, 345);
-        const back = polar(head, 2.4, 200);
-        const throat = polar(head, 2.4, 110);
-        const tail: Point = [4.5, 20];
-        const along = 0.32;
-        const root: Point = [back[0] + (tail[0] - back[0]) * along, back[1] + (tail[1] - back[1]) * along];
-        const [nx, ny] = unit(back[1] - tail[1], tail[0] - back[0]);
-        const lift = gap + 0.2;
-        const start: Point = [root[0] + nx * lift, root[1] + ny * lift];
+        const head: Point = [14.5, 9.5];
+        const back = polar(head, 3.5, 220);
+        const front = polar(head, 3.5, 345);
+        const [dx, dy] = unit(1, -0.3);
+        const tip: Point = [22.5, front[1] + (22.5 - front[0]) * dy / dx];
         return {
-            strokes: [[line(22.5, 5.6, ...front), arc(16, 8, 2.4, 345, 200), line(...back, ...tail), line(...tail, ...throat)]],
-            detail: line(...start, start[0] - 4.5, start[1] - 4.5),
-            body: [front, polar(head, 2.4, 270), back, tail, throat],
+            strokes: [[line(3, 16.5, 11, 16.5), arc(11, 9.5, 7, 90, 0), arc(14.5, 9.5, 3.5, 360, 220), line(...back, 2.5, 19)]],
+            detail: line(front[0] + dx * gap, front[1] + dy * gap, ...tip),
+            body: [[3, 16.5], [11, 16.5], polar([11, 9.5], 7, 45), [18, 9.5], polar(head, 3.5, 270), back],
         };
     },
 };
