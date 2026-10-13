@@ -1,0 +1,64 @@
+{
+    "name": "tesela",
+    "version": "0.1.0",
+    "description": "Mosaic-identity icon set: five strokes, one brushstroke and a dynamic detail tone, with a tiled variant and transitions. Framework-free core, React components and SVG sprite.",
+    "license": "AGPL-3.0-only",
+    "author": "Edgar Villarreal",
+    "type": "module",
+    "sideEffects": false,
+    "files": [
+        "dist"
+    ],
+    "exports": {
+        ".": {
+            "types": "./dist/core/index.d.ts",
+            "import": "./dist/core/index.js"
+        },
+        "./react": {
+            "types": "./dist/react/index.d.ts",
+            "import": "./dist/react/index.js"
+        },
+        "./sprite.svg": "./dist/sprite.svg"
+    },
+    "scripts": {
+        "build": "rm -rf dist && tsc -p tsconfig.build.json && node scripts/sprite.ts",
+        "typecheck": "tsc -p tsconfig.json --noEmit",
+        "lint": "eslint .",
+        "test": "vitest run",
+        "test:watch": "vitest",
+        "demo": "vite --config demo/vite.config.ts",
+        "demo:build": "vite build --config demo/vite.config.ts"
+    },
+    "peerDependencies": {
+        "react": ">=19"
+    },
+    "peerDependenciesMeta": {
+        "react": {
+            "optional": true
+        }
+    },
+    "devDependencies": {
+        "@ghegar/eslint-config": "file:../eslint-config",
+        "@testing-library/react": "^16.3.3",
+        "@types/node": "^24.0.0",
+        "@types/react": "^19.3.0",
+        "@types/react-dom": "^19.3.0",
+        "@vitejs/plugin-react": "^6.1.2",
+        "eslint": "^10.12.0",
+        "eslint-plugin-jsx-a11y": "^6.10.2",
+        "eslint-plugin-react-hooks": "^7.1.1",
+        "eslint-plugin-react-refresh": "^0.5.7",
+        "happy-dom": "^20.14.5",
+        "react": "^19.3.0",
+        "react-dom": "^19.3.0",
+        "typescript": "~6.0.3",
+        "typescript-eslint": "^8.71.1",
+        "vite": "^8.3.4",
+        "vitest": "^5.0.3"
+    },
+    "overrides": {
+        "eslint-plugin-jsx-a11y": {
+            "eslint": "$eslint"
+        }
+    }
+}
