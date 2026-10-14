@@ -8,6 +8,8 @@ Mosaic-identity icon set: five strokes, a dynamic detail tone, tiled variant and
 
 ![Twenty icons in the line and tiled variants, on a light and a dark background](.github/assets/catalog.png)
 
+**[Live demo](https://ghegar.github.io/tesela/)**
+
 A mosaic-identity icon set. Every icon is exactly five lines: four main strokes drawn in a single
 brushstroke and one loose **detail**, computed five tones away from the main color. Icons come in a line
 and a tiled variant, and morph into each other: the detail travels, the new brushstroke draws itself.
