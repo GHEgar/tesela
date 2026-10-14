@@ -5,6 +5,10 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/) y 
 
 ## [No publicado]
 
+### Cambiado
+
+- El demo está en inglés.
+
 ## [0.1.0] - 2026-10-13
 
 Primera versión: la identidad de cinco líneas llevada a un paquete.

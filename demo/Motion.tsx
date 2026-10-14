@@ -13,7 +13,7 @@ const PAIRS: readonly (readonly [string, string])[] = [
 
 const icon = (name: string): IconDefinition => {
     const found = getIcon(name);
-    if (!found) throw new Error(`Ícono desconocido: ${name}`);
+    if (!found) throw new Error(`Unknown icon: ${name}`);
     return found;
 };
 
@@ -21,7 +21,7 @@ function Pair({ pair, settings }: { readonly pair: readonly [string, string]; re
     const [second, setSecond] = useState(false);
     const [a, b] = pair;
     return (
-        <button type="button" className="pair" onClick={() => setSecond((s) => !s)} aria-label={`${a} a ${b}`}>
+        <button type="button" className="pair" onClick={() => setSecond((s) => !s)} aria-label={`${a} to ${b}`}>
             <IconTransition icon={icon(second ? b : a)} {...settings} size={36} />
             <span>{a} ⇄ {b}</span>
         </button>
@@ -51,10 +51,10 @@ export function Motion({ settings }: { readonly settings: Settings }): ReactNode
                         <button key={name} type="button" aria-pressed={name === current} onClick={() => { setAuto(false); setCurrent(name); }}>{name}</button>
                     ))}
                 </div>
-                <button type="button" className="pair" onClick={() => setAuto((a) => !a)}>{auto ? 'Detener ciclo' : 'Ciclo automático'}</button>
+                <button type="button" className="pair" onClick={() => setAuto((a) => !a)}>{auto ? 'Stop cycle' : 'Auto cycle'}</button>
             </div>
             <div className="panel">
-                <p>Los pares que cambian en la interfaz. Tócalos.</p>
+                <p>The pairs that swap in an interface. Tap them.</p>
                 <div className="pairs">
                     {PAIRS.map((pair) => <Pair key={pair.join('-')} pair={pair} settings={settings} />)}
                 </div>

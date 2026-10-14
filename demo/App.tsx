@@ -6,12 +6,12 @@ import { IconSvg } from 'tesela/react';
 import { Motion } from './Motion.js';
 
 const HUES = [
-    { id: 'pizarra', h: 250, c: 0.035 },
-    { id: 'petróleo', h: 205, c: 0.11 },
-    { id: 'añil', h: 268, c: 0.17 },
-    { id: 'grana', h: 22, c: 0.17 },
+    { id: 'slate', h: 250, c: 0.035 },
+    { id: 'petrol', h: 205, c: 0.11 },
+    { id: 'indigo', h: 268, c: 0.17 },
+    { id: 'crimson', h: 22, c: 0.17 },
     { id: 'jade', h: 162, c: 0.12 },
-    { id: 'ocre', h: 72, c: 0.13 },
+    { id: 'ochre', h: 72, c: 0.13 },
 ];
 
 export interface Settings {
@@ -44,7 +44,7 @@ function Seg<T extends string | number | boolean>({ label, value, options, onCha
 
 export function App(): ReactNode {
     const [settings, setSettings] = useState<Settings>({ stroke: 1.5, junta: 0.5, seams: true, variant: 'line', size: 32 });
-    const [hue, setHue] = useState('petróleo');
+    const [hue, setHue] = useState('petrol');
     const set = (patch: Partial<Settings>): void => setSettings((s) => ({ ...s, ...patch }));
     const selected = HUES.find((h) => h.id === hue) ?? HUES[1];
     const color: CSSProperties = { color: `oklch(0.57 ${selected?.c ?? 0.11} ${selected?.h ?? 205})` };
@@ -53,24 +53,24 @@ export function App(): ReactNode {
     return (
         <div className="wrap">
             <header>
-                <h1>tesela <span>· catálogo</span></h1>
-                <p>Cinco líneas exactas: cuatro trazos principales de un pincelazo y un detalle suelto a cinco tonos del principal.</p>
+                <h1>tesela <span>· catalog</span></h1>
+                <p>Five exact lines: four main strokes in a single brushstroke and a loose detail five tones off the main one.</p>
             </header>
 
             <div className="controls">
                 <label className="ctl">
-                    Trazo
+                    Stroke
                     <input type="range" min={1} max={2.5} step={0.1} value={settings.stroke} onChange={(e) => set({ stroke: Number(e.target.value) })} />
                     <output>{settings.stroke.toFixed(1)}</output>
                 </label>
                 <label className="ctl">
-                    Junta
+                    Joint
                     <input type="range" min={0.25} max={1.5} step={0.25} value={settings.junta} onChange={(e) => set({ junta: Number(e.target.value) })} />
                     <output>{settings.junta.toFixed(2)}</output>
                 </label>
-                <Seg label="Variante" value={settings.variant} options={[['line', 'línea'], ['tiled', 'teselado']]} onChange={(variant) => set({ variant })} />
-                <Seg label="Uniones" value={settings.seams} options={[[true, 'marcadas'], [false, 'sin marca']]} onChange={(seams) => set({ seams })} />
-                <Seg label="Tamaño" value={settings.size} options={[[16, '16'], [24, '24'], [32, '32'], [48, '48']]} onChange={(size) => set({ size })} />
+                <Seg label="Variant" value={settings.variant} options={[['line', 'line'], ['tiled', 'tiled']]} onChange={(variant) => set({ variant })} />
+                <Seg label="Seams" value={settings.seams} options={[[true, 'marked'], [false, 'unmarked']]} onChange={(seams) => set({ seams })} />
+                <Seg label="Size" value={settings.size} options={[[16, '16'], [24, '24'], [32, '32'], [48, '48']]} onChange={(size) => set({ size })} />
                 <div className="ctl">
                     Color
                     <div className="hues">
@@ -95,13 +95,13 @@ export function App(): ReactNode {
                     <p className={problems.length ? 'review bad' : 'review'}>
                         {problems.length
                             ? problems.map((p) => `${p.name}: ${p.problem}`).join(' · ')
-                            : `${icons.length} íconos. Todos cumplen las reglas con trazo de 1 a 2.5 y junta de 0.25 a 1.5.`}
+                            : `${icons.length} icons. All of them follow the rules with strokes from 1 to 2.5 and joints from 0.25 to 1.5.`}
                     </p>
                 </div>
             </section>
 
             <section>
-                <h2>Movimiento</h2>
+                <h2>Motion</h2>
                 <div className="icon-color" style={color}>
                     <Motion settings={settings} />
                 </div>
