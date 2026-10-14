@@ -28,7 +28,6 @@ export interface IconDefinition {
     readonly name: string;
     readonly label: string;
     readonly build: (gap: number) => IconGeometry;
-    readonly complex?: boolean;
     readonly freeAngles?: boolean;
     readonly spin?: boolean;
 }
@@ -37,6 +36,52 @@ export const detailSegments = (geometry: IconGeometry): readonly Segment[] =>
     Array.isArray(geometry.detail) ? geometry.detail : [geometry.detail as Segment];
 
 export const round = (value: number): number => Math.round(value * 100) / 100;
+
+const lengthOf = (s: Segment): number =>
+    s.kind === 'line' ? Math.hypot(s.to[0] - s.from[0], s.to[1] - s.from[1]) : Math.abs(s.end - s.start) * Math.PI / 180 * s.radius;
+
+const halves = (s: Segment): [Segment, Segment] => {
+    if (s.kind === 'arc') {
+        const mid = (s.start + s.end) / 2;
+        return [{ ...s, end: round(mid) }, { ...s, start: round(mid) }];
+    }
+    const mid: Point = [round((s.from[0] + s.to[0]) / 2), round((s.from[1] + s.to[1]) / 2)];
+    return [{ ...s, to: mid }, { ...s, from: mid }];
+};
+
+export const STROKES = 4;
+
+export const fourStrokes = (strokes: readonly (readonly Segment[])[]): Segment[][] => {
+    const out = strokes.map((chain) => [...chain]);
+    while (out.length < STROKES && out.length > 0) {
+        let longest = -1;
+        out.forEach((chain, i) => {
+            if (chain.length > 1 && (longest < 0 || chain.length > (out[longest]?.length ?? 0))) longest = i;
+        });
+        if (longest >= 0) {
+            const chain = out[longest] ?? [];
+            const cut = Math.floor(chain.length / 2);
+            out.splice(longest, 1, chain.slice(0, cut), chain.slice(cut));
+            continue;
+        }
+        let widest = 0;
+        out.forEach((chain, i) => {
+            const a = chain[0];
+            const b = out[widest]?.[0];
+            if (a && b && lengthOf(a) > lengthOf(b)) widest = i;
+        });
+        const only = out[widest]?.[0];
+        if (!only) break;
+        const [a, b] = halves(only);
+        out.splice(widest, 1, [a], [b]);
+    }
+    return out;
+};
+
+export const geometryOf = (definition: IconDefinition, gap: number): IconGeometry => {
+    const built = definition.build(gap);
+    return { ...built, strokes: fourStrokes(built.strokes) };
+};
 export const toRadians = (degrees: number): number => degrees * Math.PI / 180;
 export const toDegrees = (radians: number): number => radians * 180 / Math.PI;
 

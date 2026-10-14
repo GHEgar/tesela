@@ -1,17 +1,17 @@
-import { arc, chain, chordAngle, circleBody, line, part, rect, rectBody, ring, rotate, toward } from '../draw.js';
+import { arc, chain, chordAngle, circleBody, line, rect, rectBody, rotate, toward } from '../draw.js';
 import type { IconDefinition, IconGeometry, Point } from '../geometry.js';
 
-const verticalArrows = (gap: number): IconGeometry => ({
-    strokes: [[line(6, 9, 12, 3), line(12, 3, 12, 12), line(12, 12, 12, 21), line(12, 21, 18, 15)]],
-    detail: part(12, 3, 18, 9, gap * Math.SQRT2),
+const verticalArrows = (): IconGeometry => ({
+    strokes: [[line(12, 9, 12, 15)], [line(12, 15, 12, 21.5)], [line(8, 17.5, 12, 21.5)], [line(16, 17.5, 12, 21.5)]],
+    detail: chain([8, 6.5], [12, 2.5], [16, 6.5]),
 });
 
 export const crop: IconDefinition = {
     name: 'crop',
     label: 'Crop',
     build: (gap) => ({
-        strokes: [[line(2, 6, 18, 6), line(18, 6, 18, 18), line(18, 18, 6, 18), line(6, 18, 6, 2)]],
-        detail: line(18 + gap, 18, 22, 18),
+        strokes: [[line(6, 2, 6, 18)], [line(6, 18, 22, 18)], [line(6 + gap, 6, 18, 6)], [line(18, 6, 18, 22)]],
+        detail: line(2, 6, 6 - gap, 6),
         body: rectBody(6, 6, 18, 18),
     }),
 };
@@ -20,9 +20,9 @@ export const columns: IconDefinition = {
     name: 'columns',
     label: 'Columns',
     build: (gap) => ({
-        strokes: [rect(3.5, 5, 20.5, 19)],
-        detail: line(12, 5 + gap, 12, 19 - gap),
-        body: rectBody(3.5, 5, 20.5, 19),
+        strokes: [rect(3, 5, 7, 19), rect(10, 5, 14, 19), chain([17, 12], [17, 5], [21, 5]), chain([17, 12], [17, 19], [21, 19])],
+        detail: line(21, 5 + gap, 21, 19 - gap),
+        body: rectBody(3, 5, 21, 19),
     }),
 };
 
@@ -30,19 +30,23 @@ export const text: IconDefinition = {
     name: 'text',
     label: 'Text',
     build: (gap) => ({
-        strokes: [[line(5, 8, 5, 4), line(5, 4, 12, 4), line(12, 4, 19, 4), line(19, 4, 19, 8)]],
-        detail: line(12, 4 + gap, 12, 20),
+        strokes: [chain([5, 7], [5, 4], [12, 4]), chain([12, 4], [19, 4], [19, 7]), [line(12, 4, 12, 11)], [line(12, 11, 12, 17.5)]],
+        detail: line(9, 18 + gap, 15, 18 + gap),
     }),
 };
 
 export const opacity: IconDefinition = {
     name: 'opacity',
     label: 'Opacity',
-    build: (gap) => ({
-        strokes: [ring(12, 12, 8)],
-        detail: arc(12, 12, 7.8 - gap, 270, 450),
-        body: circleBody(12, 12, 8),
-    }),
+    build: (gap) => {
+        const inner = 5.4;
+        const g = chordAngle(gap, inner);
+        return {
+            strokes: [[arc(12, 12, 8.5, 0, 120)], [arc(12, 12, 8.5, 120, 240)], [arc(12, 12, 8.5, 240, 360)], [arc(12, 12, inner, 30 + g, 330 - g)]],
+            detail: arc(12, 12, inner, 330, 390),
+            body: circleBody(12, 12, 8.5),
+        };
+    },
 };
 
 export const swipe: IconDefinition = {
@@ -59,7 +63,7 @@ export const swipe: IconDefinition = {
 };
 
 export const arrowsVertical: IconDefinition = { name: 'arrowsVertical', label: 'Up and down', build: verticalArrows };
-export const arrowsHorizontal: IconDefinition = { name: 'arrowsHorizontal', label: 'Left and right', build: (gap) => rotate(verticalArrows(gap), 1) };
+export const arrowsHorizontal: IconDefinition = { name: 'arrowsHorizontal', label: 'Left and right', build: () => rotate(verticalArrows(), 1) };
 
 export const focus: IconDefinition = {
     name: 'focus',
@@ -73,14 +77,14 @@ export const focus: IconDefinition = {
 export const move: IconDefinition = {
     name: 'move',
     label: 'Move',
-    complex: true,
     build: () => ({
         strokes: [
-            chain([5.5, 9], [2.5, 12], [5.5, 15]), [line(2.5, 12, 7, 12)],
-            chain([9, 5.5], [12, 2.5], [15, 5.5]), [line(12, 2.5, 12, 7)],
-            chain([9, 18.5], [12, 21.5], [15, 18.5]), [line(12, 21.5, 12, 17)],
+            chain([6, 8.5], [2.5, 12], [6, 15.5]),
+            chain([8.5, 6], [12, 2.5], [15.5, 6]),
+            chain([8.5, 18], [12, 21.5], [15.5, 18]),
+            [arc(12, 12, 1.8, 0, 180), arc(12, 12, 1.8, 180, 360)],
         ],
-        detail: chain([18.5, 9], [21.5, 12], [18.5, 15]),
+        detail: chain([18, 8.5], [21.5, 12], [18, 15.5]),
     }),
 };
 
@@ -112,8 +116,8 @@ export const undock: IconDefinition = {
     name: 'undock',
     label: 'Undock',
     build: (gap) => ({
-        strokes: [rect(3, 9, 15, 21)],
-        detail: part(15, 9, 21, 3, gap),
+        strokes: [[line(11, 9, 3, 9)], chain([3, 9], [3, 21], [15, 21]), [line(15, 21, 15, 13)], [line(9, 15, 19.7 - gap, 4.3 + gap)]],
+        detail: chain([14.5, 4], [20, 4], [20, 9.5]),
         body: rectBody(3, 9, 15, 21),
     }),
 };
@@ -121,9 +125,9 @@ export const undock: IconDefinition = {
 export const swap: IconDefinition = {
     name: 'swap',
     label: 'Swap',
-    build: (gap) => ({
-        strokes: [[line(15, 4.5, 18.5, 8), line(18.5, 8, 5.5, 8), line(5.5, 8, 5.5, 16), line(5.5, 16, 18.5, 16)]],
-        detail: part(18.5, 16, 14, 20.5, gap * Math.SQRT2),
+    build: () => ({
+        strokes: [[line(18, 16, 11, 16)], [line(11, 16, 4, 16)], [line(8, 12, 4, 16)], [line(4, 16, 8, 20)]],
+        detail: chain([16, 4], [20, 8], [16, 12]),
     }),
 };
 

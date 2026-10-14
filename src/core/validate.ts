@@ -1,4 +1,4 @@
-import { detailSegments, distanceToPolyline, endOf, sampleSegment, samePoint, startOf } from './geometry.js';
+import { detailSegments, distanceToPolyline, endOf, geometryOf, sampleSegment, samePoint, startOf, STROKES } from './geometry.js';
 import type { IconDefinition, Segment } from './geometry.js';
 
 export interface Problem {
@@ -19,13 +19,12 @@ const angleOk = (s: Segment): boolean => {
 
 const checkOne = (definition: IconDefinition, stroke: number, junta: number): string[] => {
     const gap = stroke + junta;
-    const geometry = definition.build(gap);
+    const geometry = geometryOf(definition, gap);
     const segments = geometry.strokes.flat();
     const details = detailSegments(geometry);
     const problems: string[] = [];
-    const limit = definition.complex ? 10 : 5;
     const count = geometry.strokes.length + 1;
-    if (count > limit) problems.push(`${count} strokes, limit ${limit}`);
+    if (count !== STROKES + 1) problems.push(`${count} strokes instead of ${STROKES + 1}`);
     for (const chain of [...geometry.strokes, details]) {
         for (let i = 1; i < chain.length; i++) {
             const prev = chain[i - 1];

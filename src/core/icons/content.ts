@@ -1,6 +1,8 @@
-import { arc, bend, chain, clearArc, circleBody, line, mirrorY, rect, rectBody, split, toward } from '../draw.js';
-import { polar, sampleSegment } from '../geometry.js';
+import { arc, bend, chain, clearArc, line, mirrorY, rect, rectBody, toward } from '../draw.js';
+import { polar } from '../geometry.js';
 import type { IconDefinition, IconGeometry, Point } from '../geometry.js';
+
+const ring2 = (cx: number, cy: number, r: number) => [arc(cx, cy, r, 0, 180), arc(cx, cy, r, 180, 360)];
 
 const thumb = (): IconGeometry => ({
     strokes: [[
@@ -15,21 +17,23 @@ const thumb = (): IconGeometry => ({
 export const ranking: IconDefinition = {
     name: 'ranking',
     label: 'Ranking',
-    freeAngles: true,
     build: () => ({
-        strokes: [[line(7, 2, 12, 10), arc(12, 15, 5, 270, 450), arc(12, 15, 5, 450, 630), line(12, 10, 17, 2)]],
-        detail: line(12, 13.5, 12, 16.5),
-        body: circleBody(12, 15, 5),
+        strokes: [chain([9, 20], [9, 7], [15, 7], [15, 20]), chain([9, 12], [3, 12], [3, 20]), chain([15, 15], [21, 15], [21, 20]), [line(3, 20, 21, 20)]],
+        detail: line(12, 10, 12, 14),
+        body: [[3, 20], [3, 12], [9, 12], [9, 7], [15, 7], [15, 15], [21, 15], [21, 20]],
     }),
 };
 
 export const lineChart: IconDefinition = {
     name: 'lineChart',
     label: 'Line chart',
-    build: (gap) => ({
-        strokes: [[line(4, 18, 8, 14), line(8, 14, 11, 17), line(11, 17, 16, 12), line(16, 12, 20, 12)]],
-        detail: line(4, 18 + gap, 20, 18 + gap),
-    }),
+    build: (gap) => {
+        const d = gap / Math.SQRT2 + 0.1;
+        return {
+            strokes: [[line(4, 3, 4, 20)], [line(4, 20, 21, 20)], [line(7, 15, 11, 11)], [line(11, 11, 14, 14)]],
+            detail: line(14 + d, 14 - d, 20, 8),
+        };
+    },
 };
 
 export const hexbin: IconDefinition = {
@@ -37,12 +41,16 @@ export const hexbin: IconDefinition = {
     label: 'Hexbin',
     freeAngles: true,
     build: (gap) => {
-        const p = [0, 1, 2, 3, 4, 5].map((i) => polar([12, 12], 9, 270 + i * 60));
-        const [t, tr, br, b, bl, tl] = p as [Point, Point, Point, Point, Point, Point];
+        const o = [0, 1, 2, 3, 4, 5].map((i) => polar([12, 12], 9, 270 + i * 60));
+        const v = [0, 1, 2, 3, 4, 5].map((i) => polar([12, 12], 5.5, 270 + i * 60));
+        const at = (i: number): Point => o[i % 6] ?? [12, 12];
+        const iv = (i: number): Point => v[i] ?? [12, 12];
+        const half = 1.6;
         return {
-            strokes: [[line(...br, ...b), line(...b, ...bl), line(...bl, ...tl), line(...tl, ...t)]],
-            detail: line(...tr, br[0], br[1] - gap),
-            body: p,
+            strokes: [chain(at(0), at(1), at(2)), chain(at(2), at(3), at(4)), chain(at(4), at(5), at(0)),
+                chain(toward(iv(0), iv(1), half + gap), iv(1), iv(2), iv(3), iv(4), iv(5), toward(iv(0), iv(5), half + gap))],
+            detail: chain(toward(iv(0), iv(5), half), iv(0), toward(iv(0), iv(1), half)),
+            body: o,
         };
     },
 };
@@ -50,29 +58,38 @@ export const hexbin: IconDefinition = {
 export const raster: IconDefinition = {
     name: 'raster',
     label: 'Raster',
-    build: (gap) => ({
-        strokes: [rect(3, 4, 21, 20)],
-        detail: arc(12, 22.8 - gap, 6, 210, 330),
-        body: rectBody(3, 4, 21, 20),
-    }),
+    build: (gap) => {
+        const a = 0.1 + gap;
+        return {
+            strokes: [chain([3, 4], [21, 4], [21, 20]), chain([21, 20], [3, 20], [3, 4]), [line(12, 4, 12, 20)], [line(3, 12, 21, 12)]],
+            detail: chain([3 + a, 4 + a], [12 - a, 4 + a], [12 - a, 12 - a], [3 + a, 12 - a], [3 + a, 4 + a]),
+            body: rectBody(3, 4, 21, 20),
+        };
+    },
 };
 
 export const microphone: IconDefinition = {
     name: 'microphone',
     label: 'Microphone',
-    build: (gap) => ({
-        strokes: [[line(9, 6, 9, 12), arc(12, 12, 3, 180, 0), line(15, 12, 15, 6), arc(12, 6, 3, 0, -180)]],
-        detail: arc(12, 12, 3 + gap, 0, 180),
-        body: [[9, 6], [9, 12], [12, 15], [15, 12], [15, 6], [12, 3]],
-    }),
+    build: (gap) => {
+        const half = Math.max(0.3, 3.5 - gap - 0.05);
+        return {
+            strokes: [
+                [arc(12, 7.5, 3.5, 180, 360), line(15.5, 7.5, 15.5, 11.5), arc(12, 11.5, 3.5, 0, 180), line(8.5, 11.5, 8.5, 7.5)],
+                [arc(12, 11.5, 6.5, 180, 0)], [line(12, 18, 12, 21)], [line(8.5, 21, 15.5, 21)],
+            ],
+            detail: line(12 - half, 9.5, 12 + half, 9.5),
+            body: [[8.5, 7.5], [12, 4], [15.5, 7.5], [15.5, 11.5], [12, 15], [8.5, 11.5]],
+        };
+    },
 };
 
 export const diagram: IconDefinition = {
     name: 'diagram',
     label: 'Diagram',
     build: (gap) => ({
-        strokes: [[line(5, 20, 5, 12), line(5, 12, 12, 12), line(12, 12, 19, 12), line(19, 12, 19, 20)]],
-        detail: line(12, 12 - gap, 12, 4),
+        strokes: [ring2(12, 5, 2.5), [line(12, 7.5, 12, 12)], chain([6, 15.5], [6, 12], [18, 12], [18, 15.5 - gap]), ring2(6, 18, 2.5)],
+        detail: ring2(18, 18, 2.5),
     }),
 };
 
@@ -80,9 +97,9 @@ export const plug: IconDefinition = {
     name: 'plug',
     label: 'Plug',
     build: (gap) => ({
-        strokes: [[line(8, 3, 8, 9), arc(12, 9, 4, 180, 90), arc(12, 9, 4, 90, 0), line(16, 9, 16, 3)]],
-        detail: line(12, 13 + gap, 12, 21.5),
-        body: [[8, 9], ...Array.from({ length: 9 }, (_, i) => polar([12, 9], 4, 180 - i * 22.5)).slice(1)],
+        strokes: [[line(6, 8, 18, 8)], [line(18, 8, 18, 11), arc(12, 11, 6, 0, 180), line(6, 11, 6, 8)], [line(9.5, 3, 9.5, 8)], [line(12, 17, 12, 22)]],
+        detail: line(14.5, 3, 14.5, 8 - gap),
+        body: [[6, 8], [18, 8], [18, 11], ...Array.from({ length: 9 }, (_, i) => polar([12, 11], 6, i * 22.5)).slice(1), [6, 8]],
     }),
 };
 
@@ -105,9 +122,10 @@ export const star: IconDefinition = {
 export const formula: IconDefinition = {
     name: 'formula',
     label: 'Formula',
+    freeAngles: true,
     build: (gap) => ({
-        strokes: [[line(18, 6, 6, 6), line(6, 6, 12, 12), line(12, 12, 6, 18), line(6, 18, 18, 18)]],
-        detail: line(18, 6 + gap, 18, 8 + gap),
+        strokes: [[line(18, 4, 6, 4)], [line(6, 4, 12, 12)], [line(12, 12, 6, 20)], chain([6, 20], [18, 20], [18, 17])],
+        detail: line(18, 4 + gap, 18, 6.5 + gap),
     }),
 };
 
@@ -136,29 +154,20 @@ export const translate: IconDefinition = {
     name: 'translate',
     label: 'Translate',
     freeAngles: true,
-    build: (gap) => {
-        const reach = gap / Math.sin(Math.atan2(16, 7));
-        const legs = [...split(5, 20, 12, 4, 2), ...split(12, 4, 19, 20, 2)];
-        return {
-            strokes: [legs],
-            detail: line(7.4 + reach, 14.5, 16.6 - reach, 14.5),
-            body: [[5, 20], [12, 4], [19, 20]],
-        };
-    },
+    build: (gap) => ({
+        strokes: [[line(4.5, 6 + gap, 10, 16)], [line(9.5, 6 + gap, 4, 16)], chain([12.5, 21], [16.75, 11], [21, 21]), [line(13.56, 18.5, 19.94, 18.5)]],
+        detail: line(3, 6, 11, 6),
+    }),
 };
 
 export const apps: IconDefinition = {
     name: 'apps',
     label: 'Apps',
-    build: () => {
-        const bulge = (cx: number, cy: number, a: number) => arc(cx, cy, 20, a - 23.58, a + 23.58);
-        const edges = [bulge(12, 22.33, 270), bulge(1.67, 12, 360), bulge(12, 1.67, 450), bulge(22.33, 12, 540)];
-        return {
-            strokes: [edges],
-            detail: line(11, 12, 13, 12),
-            body: edges.flatMap((s) => sampleSegment(s).slice(1)),
-        };
-    },
+    build: () => ({
+        strokes: [rect(3, 3, 10, 10), rect(14, 3, 21, 10), chain([3, 14], [10, 14], [10, 21]), chain([10, 21], [3, 21], [3, 14])],
+        detail: ring2(17.5, 17.5, 3.5),
+        body: rectBody(3, 3, 21, 21),
+    }),
 };
 
 export const shareNodes: IconDefinition = {

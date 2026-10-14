@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { icons, validate } from 'tesela';
+import { geometryOf, icons, validate } from 'tesela';
 
 describe('reglas de la identidad', () => {
     it('cada ícono cumple con trazos de 1 a 2.5 y juntas de 0.25 a 1.5', () => {
@@ -11,7 +11,7 @@ describe('reglas de la identidad', () => {
         expect(new Set(names).size).toBe(names.length);
     });
 
-    it('solo los complejos pasan de cinco trazos', () => {
-        expect(icons.filter((icon) => icon.complex).map((icon) => icon.name).sort()).toEqual(['move']);
+    it('todo el set sale en cuatro trazos principales y un detalle', () => {
+        for (const icon of icons) expect(geometryOf(icon, 2).strokes).toHaveLength(4);
     });
 });

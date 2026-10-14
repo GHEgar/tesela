@@ -1,5 +1,5 @@
 import {
-    cubicPath, detailSegments, distanceToPolyline, endOf, insidePolygon, outwardTangents, round, sampleSegment,
+    cubicPath, detailSegments, distanceToPolyline, geometryOf, endOf, insidePolygon, outwardTangents, round, sampleSegment,
     samePoint, startOf, strokePath, toCubic, unit,
 } from './geometry.js';
 import type { Cubic, IconDefinition, IconGeometry, Point, Segment } from './geometry.js';
@@ -104,7 +104,7 @@ export const resolveIcon = (definition: IconDefinition, options: ResolveOptions 
     const hit = cache.get(key);
     if (hit) return hit;
     const gap = stroke + junta;
-    const geometry = definition.build(gap);
+    const geometry = geometryOf(definition, gap);
     const details = detailSegments(geometry);
     const detail = details.length === 1 && details[0] ? toCubic(details[0]) : null;
     const resolved: ResolvedIcon = {
