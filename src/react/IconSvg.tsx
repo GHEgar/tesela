@@ -1,6 +1,6 @@
 import type { CSSProperties, ReactNode, SVGProps } from 'react';
 import { iconParts } from 'tesela';
-import type { DetailDirection, IconDefinition, IconParts, Variant } from 'tesela';
+import type { ColorMode, DetailDirection, IconDefinition, IconParts, Variant } from 'tesela';
 
 export interface IconProps extends Omit<SVGProps<SVGSVGElement>, 'stroke' | 'children' | 'ref'> {
     readonly size?: number | string;
@@ -9,6 +9,7 @@ export interface IconProps extends Omit<SVGProps<SVGSVGElement>, 'stroke' | 'chi
     readonly variant?: Variant;
     readonly seams?: boolean;
     readonly detailDirection?: DetailDirection;
+    readonly colorMode?: ColorMode;
     readonly title?: string;
 }
 
@@ -17,7 +18,13 @@ export const partsFor = (definition: IconDefinition, props: IconProps): IconPart
     ...(props.junta === undefined ? {} : { junta: props.junta }),
     ...(props.variant === undefined ? {} : { variant: props.variant }),
     ...(props.seams === undefined ? {} : { seams: props.seams }),
+    ...(props.detailDirection === undefined ? {} : { detailDirection: props.detailDirection }),
+    colorMode: props.colorMode ?? 'auto',
 });
+
+export const Fill = ({ parts }: { readonly parts: IconParts }): ReactNode => parts.fill ? (
+    <polygon points={parts.fill.points} fill="currentColor" fillOpacity={parts.fill.opacity} stroke="none" />
+) : null;
 
 export const Tiles = ({ parts }: { readonly parts: IconParts }): ReactNode => parts.tiles.length ? (
     <g stroke="none">
@@ -36,7 +43,7 @@ interface SvgFrameProps {
 }
 
 export function SvgFrame({ parts, props, children }: SvgFrameProps): ReactNode {
-    const { size = 24, stroke: _stroke, junta: _junta, variant: _variant, seams: _seams, detailDirection, title, style, ...rest } = props;
+    const { size = 24, stroke: _stroke, junta: _junta, variant: _variant, seams: _seams, detailDirection, colorMode: _colorMode, title, style, ...rest } = props;
     const direction: CSSProperties = detailDirection
         ? ({ '--tesela-dir': detailDirection === 'lighter' ? -1 : 1 } as CSSProperties)
         : {};
@@ -65,6 +72,7 @@ export function IconSvg({ definition, ...props }: IconProps & { readonly definit
     const parts = partsFor(definition, props);
     const body = (
         <>
+            <Fill parts={parts} />
             <Tiles parts={parts} />
             {parts.strokes.map((d) => <path key={d} d={d} />)}
             <Seams parts={parts} />

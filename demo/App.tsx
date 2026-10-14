@@ -68,7 +68,7 @@ export function App(): ReactNode {
                     <input type="range" min={0.25} max={1.5} step={0.25} value={settings.junta} onChange={(e) => set({ junta: Number(e.target.value) })} />
                     <output>{settings.junta.toFixed(2)}</output>
                 </label>
-                <Seg label="Variant" value={settings.variant} options={[['line', 'line'], ['tiled', 'tiled']]} onChange={(variant) => set({ variant })} />
+                <Seg label="Variant" value={settings.variant} options={[['line', 'line'], ['tiled', 'tiled'], ['filled', 'filled'], ['duotone', 'duotone']]} onChange={(variant) => set({ variant })} />
                 <Seg label="Seams" value={settings.seams} options={[[true, 'marked'], [false, 'unmarked']]} onChange={(seams) => set({ seams })} />
                 <Seg label="Size" value={settings.size} options={[[16, '16'], [24, '24'], [32, '32'], [48, '48']]} onChange={(size) => set({ size })} />
                 <div className="ctl">

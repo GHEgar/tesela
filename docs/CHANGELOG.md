@@ -5,6 +5,22 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/) y 
 
 ## [No publicado]
 
+## [0.2.0] - 2026-10-14
+
+### Agregado
+
+- 26 íconos en dos grupos nuevos. Herramientas: `crop`, `columns`, `text`, `opacity`, `swipe`,
+  `arrowsVertical`, `arrowsHorizontal`, `focus`, `move`, `undock` y `swap`. Contenido: `ranking`,
+  `lineChart`, `hexbin`, `raster`, `microphone`, `diagram`, `plug`, `star`, `formula`, `thumbUp`,
+  `thumbDown`, `offline`, `translate`, `apps` y `shareNodes`. Son 87 en total.
+- Variantes `filled` y `duotone`: el cuerpo del ícono relleno con el color principal o al 25 %. Los
+  íconos sin cuerpo se quedan en línea.
+- `colorMode` (`'auto'`, `'relative'`, `'mix'`) y `supportsRelativeColor()`: `'auto'` mide en el DOM si el
+  navegador deriva de verdad el color desde `currentColor` y, si no, usa solo el respaldo `color-mix`.
+  Es el valor por defecto en React.
+- El respaldo `color-mix` aclara hacia blanco con `detailDirection: 'lighter'`.
+- Símbolos `-filled` y `-duotone` en el sprite.
+
 ### Cambiado
 
 - El demo está en inglés.

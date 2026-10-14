@@ -9,7 +9,9 @@ const symbol = (name: string, svg: string): string =>
 
 const symbols = icons.flatMap((icon) => [
     symbol(icon.name, renderIcon(icon)),
-    ...(icon.build(2).body ? [symbol(`${icon.name}-tiled`, renderIcon(icon, { variant: 'tiled' }))] : []),
+    ...(icon.build(2).body
+        ? (['tiled', 'filled', 'duotone'] as const).map((variant) => symbol(`${icon.name}-${variant}`, renderIcon(icon, { variant })))
+        : []),
 ]);
 
 mkdirSync('dist', { recursive: true });

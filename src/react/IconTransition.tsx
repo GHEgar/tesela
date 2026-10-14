@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import type { ReactNode } from 'react';
 import { cubicPath, lerpCubic, resolveIcon } from 'tesela';
 import type { IconDefinition } from 'tesela';
-import { partsFor, Seams, SvgFrame, Tiles } from './IconSvg.js';
+import { Fill, partsFor, Seams, SvgFrame, Tiles } from './IconSvg.js';
 import type { IconProps } from './IconSvg.js';
 
 export interface IconTransitionProps extends IconProps {
@@ -68,6 +68,7 @@ export function IconTransition({ icon, duration = 560, ...props }: IconTransitio
 
     return (
         <SvgFrame parts={parts} props={props}>
+            <Fill parts={parts} />
             <Tiles parts={parts} />
             <g ref={strokesRef}>
                 {leaving.map((d) => <path key={`out-${d}`} d={d} data-leave="" />)}

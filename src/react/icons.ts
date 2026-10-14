@@ -1,5 +1,11 @@
 import {
-    alert, arrowLeft, arrowRight, basemap, chat, check, chevronDown, chevronLeft, chevronRight, chevronUp, circle, close, collapse, compass, copy, cube, documentIcon, downloadIcon, drone, edit, expand, eye, eyeOff, filter, folder, globe, history, home, hummingbird, info, layers, link, lock, mail, menu, minus, pause, phone, pin, play, plus, point, polygon, polyline, redo, refresh, ruler, search, send, settings, share, spinner, stats, table, trash, undoIcon, unlock, upload, user, zoomIn, zoomOut,
+    alert, apps, arrowLeft, arrowRight, arrowsH, arrowsV, basemap, chat, check, chevronDown, chevronLeft,
+    chevronRight, chevronUp, circle, close, collapse, columns, compass, copy, crop, cube, diagram, documentIcon,
+    downloadIcon, drone, edit, expand, eye, eyeOff, filter, focus, folder, formula, globe, hexbin, history, home,
+    hummingbird, info, layers, lineChart, link, lock, mail, menu, microphone, minus, move, offline, opacity, pause,
+    phone, pin, play, plug, plus, point, polygon, polyline, ranking, raster, redo, refresh, ruler, search, send,
+    settings, share, shareNodes, spinner, star, stats, swap, swipe, table, text, thumbsDown, thumbsUp, translate,
+    trash, undoIcon, undock, unlock, upload, user, zoomIn, zoomOut,
 } from 'tesela';
 import { createIcon } from './IconSvg.js';
 
@@ -64,3 +70,29 @@ export const Stats = createIcon(stats);
 export const Cube = createIcon(cube);
 export const Compass = createIcon(compass);
 export const Hummingbird = createIcon(hummingbird);
+export const Crop = createIcon(crop);
+export const Columns = createIcon(columns);
+export const Text = createIcon(text);
+export const Opacity = createIcon(opacity);
+export const Swipe = createIcon(swipe);
+export const ArrowsVertical = createIcon(arrowsV);
+export const ArrowsHorizontal = createIcon(arrowsH);
+export const Focus = createIcon(focus);
+export const Move = createIcon(move);
+export const Undock = createIcon(undock);
+export const Swap = createIcon(swap);
+export const Ranking = createIcon(ranking);
+export const LineChart = createIcon(lineChart);
+export const Hexbin = createIcon(hexbin);
+export const Raster = createIcon(raster);
+export const Microphone = createIcon(microphone);
+export const Diagram = createIcon(diagram);
+export const Plug = createIcon(plug);
+export const Star = createIcon(star);
+export const Formula = createIcon(formula);
+export const ThumbUp = createIcon(thumbsUp);
+export const ThumbDown = createIcon(thumbsDown);
+export const Offline = createIcon(offline);
+export const Translate = createIcon(translate);
+export const Apps = createIcon(apps);
+export const ShareNodes = createIcon(shareNodes);

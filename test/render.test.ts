@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { icons, renderIcon, search, spinner } from 'tesela';
+import { close, icons, renderIcon, search, spinner } from 'tesela';
 
 describe('renderIcon', () => {
     it('sin título es decorativo', () => {
@@ -38,5 +38,17 @@ describe('renderIcon', () => {
         for (const icon of icons) {
             expect(renderIcon(icon, { seams: false }).match(/style="stroke:/g)).toHaveLength(1);
         }
+    });
+
+    it('mix deja solo el respaldo y aclara hacia blanco si se pide', () => {
+        const svg = renderIcon(search, { colorMode: 'mix', detailDirection: 'lighter' });
+        expect(svg).not.toContain('oklch(from');
+        expect(svg).toContain('color-mix(in oklch, currentColor, white 60%)');
+    });
+
+    it('filled y duotone rellenan el cuerpo; sin cuerpo caen a línea', () => {
+        expect(renderIcon(search, { variant: 'filled' })).toContain('fill-opacity="1"');
+        expect(renderIcon(search, { variant: 'duotone' })).toContain('fill-opacity="0.25"');
+        expect(renderIcon(close, { variant: 'filled' })).not.toContain('fill-opacity');
     });
 });

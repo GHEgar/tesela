@@ -4,15 +4,16 @@
 [![size](https://img.shields.io/bundlejs/size/tesela)](https://bundlejs.com/?q=tesela)
 [![license](https://img.shields.io/github/license/GHEgar/tesela)](LICENSE)
 
-Mosaic-identity icon set: five strokes, a dynamic detail tone, tiled variant and transitions. Core, React and sprite.
+Mosaic-identity icon set: five strokes, a dynamic detail tone, four variants and transitions. Core, React and sprite.
 
 ![Twenty icons in the line and tiled variants, on a light and a dark background](.github/assets/catalog.png)
 
 **[Live demo](https://ghegar.github.io/tesela/)**
 
 A mosaic-identity icon set. Every icon is exactly five lines: four main strokes drawn in a single
-brushstroke and one loose **detail**, computed five tones away from the main color. Icons come in a line
-and a tiled variant, and morph into each other: the detail travels, the new brushstroke draws itself.
+brushstroke and one loose **detail**, computed five tones away from the main color. Icons come in line,
+tiled, filled and duotone variants, and morph into each other: the detail travels, the new brushstroke
+draws itself.
 Colors derive from `currentColor` with CSS relative color, with a `color-mix` fallback, so an icon takes
 the color of its text and needs no stylesheet.
 
@@ -24,9 +25,9 @@ npm install tesela
 
 | Entry | What it is | Needs |
 |---|---|---|
-| `tesela` | Framework-free core: 61 icon definitions, geometry, rules, `renderIcon` to SVG strings | nothing |
+| `tesela` | Framework-free core: 87 icon definitions, geometry, rules, `renderIcon` to SVG strings | nothing |
 | `tesela/react` | One component per icon, `Icon` by name and `IconTransition` | `react >= 19` |
-| `tesela/sprite.svg` | SVG sprite with a `<symbol>` per icon and per tiled icon | nothing |
+| `tesela/sprite.svg` | SVG sprite with a `<symbol>` per icon and per tiled, filled and duotone icon | nothing |
 
 ## Quick start
 
@@ -55,9 +56,10 @@ export function Toolbar() {
 | `size` | `24` | Width and height |
 | `stroke` | `1.5` | Stroke width, 1 to 2.5 |
 | `junta` | `0.5` | Visible gap between the detail and the strokes |
-| `variant` | `'line'` | `'line'` or `'tiled'` |
+| `variant` | `'line'` | `'line'`, `'tiled'`, `'filled'` or `'duotone'`; icons without a body fall back to line |
 | `seams` | `true` | Thin marks where main strokes meet |
 | `detailDirection` | inherited | `'darker'` or `'lighter'`; sets `--tesela-dir` |
+| `colorMode` | `'auto'` in React, `'relative'` in the core | `'auto'`, `'relative'` or `'mix'`; see Color |
 | `title` | — | Accessible name; without it the icon is `aria-hidden` |
 
 The same options go to `renderIcon` in the core. React components also pass any other SVG attribute
@@ -66,8 +68,16 @@ The same options go to `renderIcon` in the core. React components also pass any 
 ## Color
 
 The main strokes use `currentColor`. The detail is five tones away from it, the seams two and the tiles
-one to five, computed with `oklch(from currentColor …)`; browsers without relative color get a darker
-`color-mix` instead.
+one to five, computed with `oklch(from currentColor …)`, with a `color-mix` fallback in the presentation
+attribute.
+
+`colorMode` picks how:
+
+- `'relative'` writes both; a browser that can't parse the relative color keeps the fallback.
+- `'mix'` writes only the `color-mix` fallback, towards white when `detailDirection` is `'lighter'`.
+- `'auto'` (React's default) measures once in the DOM whether the browser really derives a color from
+  `currentColor`, not only whether it parses the syntax, and picks `'relative'` or `'mix'`.
+  `supportsRelativeColor()` exposes the same check.
 
 The detail goes darker by default. For dark themes set `--tesela-dir: -1` on any ancestor, or pass
 `detailDirection="lighter"`.
@@ -94,7 +104,7 @@ It returns a list of `{ name, problem }`; an empty list means every icon follows
 
 ## Icons
 
-61 icons in six groups: navigation, actions, status, objects, map and the hummingbird. The core exports
+87 icons in eight groups: navigation, actions, status, objects, map, tools, content and the hummingbird. The core exports
 each definition in camelCase (`search`, `zoomIn`, `eyeOff`), plus `icons`, `iconNames` and
 `getIcon(name)`. React exports one component per icon in PascalCase (`Search`, `ZoomIn`, `EyeOff`).
 
@@ -152,13 +162,14 @@ the icon swaps without animation.
 ```
 
 Serve `dist/sprite.svg` with your assets and point `href` at it. Symbols use the default options
-(stroke 1.5, junta 0.5, seams on); `-tiled` symbols exist only for icons with a tiled body.
+(stroke 1.5, junta 0.5, seams on); `-tiled`, `-filled` and `-duotone` symbols exist only for icons with
+a body.
 
 ## Known limitations
 
-- Relative color has been checked in Chrome and Firefox only; Safari is pending.
+- Relative color has been checked in Chrome and Firefox; Safari relies on `colorMode: 'auto'`.
 - The sprite is fixed at the default stroke and junta. For other values use the core or React.
-- Only the line and tiled variants exist for now.
+- Filled, duotone and tiled need a closed body; open icons (close, menu, chevrons…) stay as lines.
 
 ## Development
 
