@@ -53,7 +53,6 @@ export const zoomIn: IconDefinition = {
 export const close: IconDefinition = {
     name: 'close',
     label: 'Close',
-    cross: true,
     build: (gap) => ({
         strokes: [[part(6, 6, 12, 12, 3 + gap), line(12, 12, 18, 18)], [line(18, 6, 12, 12), line(12, 12, 6, 18)]],
         detail: part(6, 6, 12, 12, 0, 3),
@@ -63,7 +62,6 @@ export const close: IconDefinition = {
 export const plus: IconDefinition = {
     name: 'plus',
     label: 'Add',
-    cross: true,
     build: (gap) => ({
         strokes: [[line(8 + gap, 12, 12, 12), line(12, 12, 19, 12)], [line(12, 5, 12, 12), line(12, 12, 12, 19)]],
         detail: line(5, 12, 8, 12),

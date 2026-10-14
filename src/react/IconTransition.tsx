@@ -39,8 +39,8 @@ export function IconTransition({ icon, duration = 560, ...props }: IconTransitio
     useEffect(() => {
         if (!track.from) return undefined;
         const options = { ...(stroke === undefined ? {} : { stroke }), ...(junta === undefined ? {} : { junta }) };
-        const from = resolveIcon(track.from, options).detail;
-        const to = resolveIcon(track.icon, options).detail;
+        const from = resolveIcon(track.from, options);
+        const to = resolveIcon(track.icon, options);
         strokesRef.current?.querySelectorAll('[data-enter]').forEach((el) => animate(el, [
             { strokeDasharray: '1 2', strokeDashoffset: 1, opacity: 0 },
             { strokeDasharray: '1 2', strokeDashoffset: 0.92, opacity: 1, offset: 0.08 },
@@ -55,7 +55,12 @@ export function IconTransition({ icon, duration = 560, ...props }: IconTransitio
         const step = (now: number): void => {
             if (start < 0) start = now;
             const t = ease(Math.min(1, (now - start) / duration));
-            detailRef.current?.setAttribute('d', cubicPath(lerpCubic(from, to, t)));
+            const path = detailRef.current;
+            if (path && from.detail && to.detail) path.setAttribute('d', cubicPath(lerpCubic(from.detail, to.detail, t)));
+            else if (path) {
+                path.setAttribute('d', t < 0.5 ? from.detailPath : to.detailPath);
+                path.style.opacity = String(Math.abs(1 - 2 * t));
+            }
             if (t < 1) frame = requestAnimationFrame(step);
         };
         frame = requestAnimationFrame(step);

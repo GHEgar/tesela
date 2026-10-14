@@ -1,6 +1,6 @@
 import {
-    distanceToPolyline, endOf, insidePolygon, outwardTangents, round, sampleCubic, sampleSegment, samePoint,
-    startOf, strokePath, toCubic, unit,
+    cubicPath, detailSegments, distanceToPolyline, endOf, insidePolygon, outwardTangents, round, sampleSegment,
+    samePoint, startOf, strokePath, toCubic, unit,
 } from './geometry.js';
 import type { Cubic, IconDefinition, IconGeometry, Point, Segment } from './geometry.js';
 
@@ -21,7 +21,8 @@ export interface ResolvedIcon {
     readonly gap: number;
     readonly geometry: IconGeometry;
     readonly strokes: readonly string[];
-    readonly detail: Cubic;
+    readonly detail: Cubic | null;
+    readonly detailPath: string;
     readonly seams: readonly string[];
     readonly tiles: readonly Tile[];
 }
@@ -72,12 +73,12 @@ const seamLines = (segments: readonly Segment[], stroke: number): string[] => {
     return lines.map(([x1, y1, x2, y2]) => `M${round(x1)} ${round(y1)}L${round(x2)} ${round(y2)}`);
 };
 
-const tilesFor = (geometry: IconGeometry, detail: Cubic, stroke: number, junta: number): Tile[] => {
+const tilesFor = (geometry: IconGeometry, stroke: number, junta: number): Tile[] => {
     const body = geometry.body;
     if (!body) return [];
     const h = TILE / 2 - 0.3;
     const clear = stroke / 2 + h + junta;
-    const paths = [...geometry.strokes.flat().map(sampleSegment), sampleCubic(detail)];
+    const paths = [...geometry.strokes.flat(), ...detailSegments(geometry)].map(sampleSegment);
     const out: Tile[] = [];
     for (let row = 0, y = 0; y <= 24; y += TILE / 2, row++) {
         for (let x = (row % 2) * TILE / 2; x <= 24; x += TILE) {
@@ -104,7 +105,8 @@ export const resolveIcon = (definition: IconDefinition, options: ResolveOptions 
     if (hit) return hit;
     const gap = stroke + junta;
     const geometry = definition.build(gap);
-    const detail = toCubic(geometry.detail);
+    const details = detailSegments(geometry);
+    const detail = details.length === 1 && details[0] ? toCubic(details[0]) : null;
     const resolved: ResolvedIcon = {
         name: definition.name,
         stroke,
@@ -112,8 +114,9 @@ export const resolveIcon = (definition: IconDefinition, options: ResolveOptions 
         geometry,
         strokes: geometry.strokes.map(strokePath),
         detail,
+        detailPath: detail ? cubicPath(detail) : strokePath(details),
         seams: seamLines(geometry.strokes.flat(), stroke),
-        tiles: tilesFor(geometry, detail, stroke, junta),
+        tiles: tilesFor(geometry, stroke, junta),
     };
     cache.set(key, resolved);
     return resolved;

@@ -20,7 +20,7 @@ export type Cubic = readonly [number, number, number, number, number, number, nu
 
 export interface IconGeometry {
     readonly strokes: readonly (readonly Segment[])[];
-    readonly detail: Segment;
+    readonly detail: Segment | readonly Segment[];
     readonly body?: readonly Point[];
 }
 
@@ -28,10 +28,13 @@ export interface IconDefinition {
     readonly name: string;
     readonly label: string;
     readonly build: (gap: number) => IconGeometry;
-    readonly cross?: boolean;
+    readonly complex?: boolean;
     readonly freeAngles?: boolean;
     readonly spin?: boolean;
 }
+
+export const detailSegments = (geometry: IconGeometry): readonly Segment[] =>
+    Array.isArray(geometry.detail) ? geometry.detail : [geometry.detail as Segment];
 
 export const round = (value: number): number => Math.round(value * 100) / 100;
 export const toRadians = (degrees: number): number => degrees * Math.PI / 180;

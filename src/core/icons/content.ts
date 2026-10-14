@@ -1,11 +1,15 @@
-import { arc, clearArc, circleBody, line, mirrorY, rect, rectBody, split } from '../draw.js';
+import { arc, bend, chain, clearArc, circleBody, line, mirrorY, rect, rectBody, split, toward } from '../draw.js';
 import { polar, sampleSegment } from '../geometry.js';
 import type { IconDefinition, IconGeometry, Point } from '../geometry.js';
 
-const thumb = (gap: number): IconGeometry => ({
-    strokes: [rect(7, 11, 20, 20)],
-    detail: line(9, 11 - gap, 12, 3.5),
-    body: rectBody(7, 11, 20, 20),
+const thumb = (): IconGeometry => ({
+    strokes: [[
+        line(8, 20, 8, 11), line(8, 11, 11, 4), bend([11, 4], [14, 5], 1.6, true), line(14, 5, 13.2, 10),
+        line(13.2, 10, 18.6, 10), bend([18.6, 10], [20.3, 12.2], 1.8, true), line(20.3, 12.2, 19, 18.6),
+        bend([19, 18.6], [17.2, 20], 1.8, true), line(17.2, 20, 8, 20),
+    ]],
+    detail: line(4.5, 11.5, 4.5, 20),
+    body: [[8, 20], [8, 11], [11, 4], [14, 5], [13.2, 10], [18.6, 10], [20.3, 12.2], [19, 18.6], [17.2, 20]],
 });
 
 export const ranking: IconDefinition = {
@@ -85,12 +89,15 @@ export const plug: IconDefinition = {
 export const star: IconDefinition = {
     name: 'star',
     label: 'Star',
-    build: () => {
-        const strokes = [arc(22, 2, 10, 180, 90), arc(22, 22, 10, 270, 180), arc(2, 22, 10, 360, 270), arc(2, 2, 10, 90, 0)];
+    freeAngles: true,
+    build: (gap) => {
+        const v = Array.from({ length: 10 }, (_, i) => polar([12, 12.8], i % 2 ? 4 : 9.8, -90 + i * 36));
+        const top = polar([12, 12.8], 9.8, -90);
+        const right = polar([12, 12.8], 4, -54);
         return {
-            strokes: [strokes],
-            detail: line(18, 6, 20, 4),
-            body: strokes.flatMap((s) => sampleSegment(s).slice(1)),
+            strokes: [chain(...v.slice(1))],
+            detail: line(...top, ...toward(right, top, gap)),
+            body: v,
         };
     },
 };
@@ -105,20 +112,22 @@ export const formula: IconDefinition = {
 };
 
 export const thumbUp: IconDefinition = { name: 'thumbUp', label: 'Thumb up', freeAngles: true, build: thumb };
-export const thumbDown: IconDefinition = { name: 'thumbDown', label: 'Thumb down', freeAngles: true, build: (gap) => mirrorY(thumb(gap)) };
+export const thumbDown: IconDefinition = { name: 'thumbDown', label: 'Thumb down', freeAngles: true, build: () => mirrorY(thumb()) };
 
 export const offline: IconDefinition = {
     name: 'offline',
     label: 'Offline',
     build: (gap) => {
-        const slash = line(3, 3, 13, 13);
-        const [left, right] = clearArc(12, 20, 13, 225, 315, slash, gap);
-        const l = polar([12, 20], 13, 225);
-        const r = polar([12, 20], 13, 315);
+        const slash = line(3.5, 3.5, 20.5, 20.5);
+        const [left, right] = clearArc(12, 20, 12, 225, 315, slash, gap + 0.1);
+        const l = polar([12, 20], 12, 225);
+        const r = polar([12, 20], 12, 315);
+        const along = (t: number): Point => [12 + t / Math.SQRT2, 20 - t / Math.SQRT2];
+        const cross = 4 * Math.SQRT2;
         return {
-            strokes: [[right, line(...r, 12, 20), line(12, 20, ...l), left]],
+            strokes: [chain(l, [12, 20], along(cross - gap)), chain(along(cross + gap), r), [left], [right]],
             detail: slash,
-            body: [[12, 20], ...Array.from({ length: 10 }, (_, i) => polar([12, 20], 13, 225 + i * 10))],
+            body: [[12, 20], ...Array.from({ length: 10 }, (_, i) => polar([12, 20], 12, 225 + i * 10))],
         };
     },
 };
@@ -157,16 +166,38 @@ export const shareNodes: IconDefinition = {
     label: 'Share',
     freeAngles: true,
     build: (gap) => {
-        const top = polar([6, 12], 3, -40);
-        const bottom = polar([6, 12], 3, 40);
+        const r = 2.6;
+        const angle = (from: Point, to: Point): number => (Math.atan2(to[1] - from[1], to[0] - from[0]) * 180) / Math.PI;
+        const left: Point = [6, 12];
+        const top: Point = [18, 5.5];
+        const bottom: Point = [18, 18.5];
+        const up = angle(left, top);
+        const down = angle(left, bottom);
+        const a = polar(left, r, up);
+        const b = polar(left, r, down);
+        const edge = polar(top, r, angle(top, left));
+        const end = toward(bottom, b, r + gap);
         return {
-            strokes: [[line(19, 5, ...top), arc(6, 12, 3, -40, -180), arc(6, 12, 3, -180, -320), line(...bottom, 19, 19)]],
-            detail: line(19, 8 + gap, 19, 16 - gap),
+            strokes: [
+                [line(...edge, ...a), arc(6, 12, r, up, down - 360), line(...b, ...end)],
+                [arc(18, 5.5, r, 0, 180), arc(18, 5.5, r, 180, 360)],
+            ],
+            detail: [arc(18, 18.5, r, 0, 180), arc(18, 18.5, r, 180, 360)],
         };
     },
 };
 
+export const bell: IconDefinition = {
+    name: 'bell',
+    label: 'Notifications',
+    build: () => ({
+        strokes: [[line(6, 17, 6, 10.5), arc(12, 10.5, 6, 180, 360), line(18, 10.5, 18, 17), line(18, 17, 6, 17)], [line(12, 4.5, 12, 3)]],
+        detail: arc(12, 20, 2, 180, 0),
+        body: [[6, 17], [6, 10.5], ...Array.from({ length: 9 }, (_, i) => polar([12, 10.5], 6, 180 + i * 22.5)).slice(1), [18, 17]],
+    }),
+};
+
 export const content = [
     ranking, lineChart, hexbin, raster, microphone, diagram, plug, star, formula, thumbUp, thumbDown, offline,
-    translate, apps, shareNodes,
+    translate, apps, shareNodes, bell,
 ];

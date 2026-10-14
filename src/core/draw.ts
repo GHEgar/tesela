@@ -53,7 +53,9 @@ const mapSegment = (segment: Segment, f: (p: Point) => Point, angle: (a: number)
 
 const mapGeometry = (geometry: IconGeometry, f: (p: Point) => Point, angle: (a: number) => number): IconGeometry => ({
     strokes: geometry.strokes.map((stroke) => stroke.map((s) => mapSegment(s, f, angle))),
-    detail: mapSegment(geometry.detail, f, angle),
+    detail: Array.isArray(geometry.detail)
+        ? (geometry.detail as readonly Segment[]).map((s) => mapSegment(s, f, angle))
+        : mapSegment(geometry.detail as Segment, f, angle),
     ...(geometry.body ? { body: geometry.body.map((p) => mapPoint(p, f)) } : {}),
 });
 
@@ -82,3 +84,31 @@ export const rectBody = (x1: number, y1: number, x2: number, y2: number): Point[
 
 export const ring = (cx: number, cy: number, radius: number): Arc[] =>
     [0, 90, 180, 270].map((a) => arc(cx, cy, radius, a, a + 90));
+
+export const chain = (...points: Point[]): Line[] =>
+    points.slice(1).map((p, i) => {
+        const [x, y] = points[i] ?? p;
+        return line(x, y, p[0], p[1]);
+    });
+
+export const toward = (from: Point, to: Point, distance: number): Point => {
+    const length = Math.hypot(to[0] - from[0], to[1] - from[1]);
+    return [from[0] + (to[0] - from[0]) / length * distance, from[1] + (to[1] - from[1]) / length * distance];
+};
+
+export const bend = (from: Point, to: Point, radius: number, clockwise: boolean): Arc => {
+    const mx = (from[0] + to[0]) / 2;
+    const my = (from[1] + to[1]) / 2;
+    const half = Math.hypot(to[0] - from[0], to[1] - from[1]) / 2;
+    const offset = Math.sqrt(Math.max(0, radius * radius - half * half));
+    const nx = -(to[1] - from[1]) / (2 * half);
+    const ny = (to[0] - from[0]) / (2 * half);
+    const side = clockwise ? 1 : -1;
+    const cx = mx + nx * offset * side;
+    const cy = my + ny * offset * side;
+    const start = toDegrees(Math.atan2(from[1] - cy, from[0] - cx));
+    let end = toDegrees(Math.atan2(to[1] - cy, to[0] - cx));
+    if (clockwise && end < start) end += 360;
+    if (!clockwise && end > start) end -= 360;
+    return arc(round(cx), round(cy), radius, start, end);
+};

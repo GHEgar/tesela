@@ -1,6 +1,5 @@
 import { directionStyle, tone, toneOffsets } from './color.js';
 import type { ColorMode, DetailDirection } from './color.js';
-import { cubicPath } from './geometry.js';
 import type { IconDefinition } from './geometry.js';
 import { resolveIcon } from './resolve.js';
 import type { ResolveOptions } from './resolve.js';
@@ -72,7 +71,7 @@ export const iconParts = (definition: IconDefinition, options: RenderOptions = {
         seams: options.seams === false
             ? []
             : resolved.seams.map((d) => ({ d, ...seam, width: Math.round(Math.max(0.1, resolved.stroke * 0.08) * 100) / 100 })),
-        detail: { d: cubicPath(resolved.detail), ...detail },
+        detail: { d: resolved.detailPath, ...detail },
         spin: definition.spin === true,
     };
 };

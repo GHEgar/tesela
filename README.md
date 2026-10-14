@@ -10,8 +10,8 @@ Mosaic-identity icon set: five strokes, a dynamic detail tone, four variants and
 
 **[Live demo](https://ghegar.github.io/tesela/)**
 
-A mosaic-identity icon set. Every icon is exactly five lines: four main strokes drawn in a single
-brushstroke and one loose **detail**, computed five tones away from the main color. Icons come in line,
+A mosaic-identity icon set. Every icon is at most five strokes, each a continuous line that may turn
+corners, and one of them is a loose **detail**, computed five tones away from the main color. Icons come in line,
 tiled, filled and duotone variants, and morph into each other: the detail travels, the new brushstroke
 draws itself.
 Colors derive from `currentColor` with CSS relative color, with a `color-mix` fallback, so an icon takes
@@ -25,7 +25,7 @@ npm install tesela
 
 | Entry | What it is | Needs |
 |---|---|---|
-| `tesela` | Framework-free core: 87 icon definitions, geometry, rules, `renderIcon` to SVG strings | nothing |
+| `tesela` | Framework-free core: 90 icon definitions, geometry, rules, `renderIcon` to SVG strings | nothing |
 | `tesela/react` | One component per icon, `Icon` by name and `IconTransition` | `react >= 19` |
 | `tesela/sprite.svg` | SVG sprite with a `<symbol>` per icon and per tiled, filled and duotone icon | nothing |
 
@@ -90,9 +90,11 @@ The detail goes darker by default. For dark themes set `--tesela-dir: -1` on any
 
 ## Rules
 
-Every icon passes `validate()`: four main segments, one brushstroke (crosses take two), the detail at
-least stroke + junta away from every stroke, lines at 0, 45 or 90° unless marked, and inside the 24 × 24
-box, for strokes from 1 to 2.5 and juntas from 0.25 to 1.5.
+Every icon passes `validate()`: at most five strokes counting the detail (ten for icons marked
+`complex`), each stroke a continuous line, the detail at least stroke + junta away from every other
+stroke, lines at 0, 45 or 90° unless marked, and inside the 24 × 24 box, for strokes from 1 to 2.5 and
+juntas from 0.25 to 1.5. When the detail is part of an outline it skips the corner: the outline keeps
+the corner and the gap falls on the detail's side.
 
 ```ts
 import { icons, validate } from 'tesela';
@@ -104,7 +106,7 @@ It returns a list of `{ name, problem }`; an empty list means every icon follows
 
 ## Icons
 
-87 icons in eight groups: navigation, actions, status, objects, map, tools, content and the hummingbird. The core exports
+90 icons in eight groups: navigation, actions, status, objects, map, tools, content and the hummingbird. The core exports
 each definition in camelCase (`search`, `zoomIn`, `eyeOff`), plus `icons`, `iconNames` and
 `getIcon(name)`. React exports one component per icon in PascalCase (`Search`, `ZoomIn`, `EyeOff`).
 

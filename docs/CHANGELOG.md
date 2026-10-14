@@ -12,7 +12,8 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/) y 
 - 26 íconos en dos grupos nuevos. Herramientas: `crop`, `columns`, `text`, `opacity`, `swipe`,
   `arrowsVertical`, `arrowsHorizontal`, `focus`, `move`, `undock` y `swap`. Contenido: `ranking`,
   `lineChart`, `hexbin`, `raster`, `microphone`, `diagram`, `plug`, `star`, `formula`, `thumbUp`,
-  `thumbDown`, `offline`, `translate`, `apps` y `shareNodes`. Son 87 en total.
+  `thumbDown`, `offline`, `translate`, `apps` y `shareNodes`, y además `pointer`, `stop` y `bell`. Son 90 en
+  total.
 - Variantes `filled` y `duotone`: el cuerpo del ícono relleno con el color principal o al 25 %. Los
   íconos sin cuerpo se quedan en línea.
 - `colorMode` (`'auto'`, `'relative'`, `'mix'`) y `supportsRelativeColor()`: `'auto'` mide en el DOM si el
@@ -23,6 +24,13 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/) y 
 
 ### Cambiado
 
+- La regla cuenta trazos, no segmentos: un trazo es una línea continua que puede doblar esquinas. Hasta
+  cinco contando el detalle, o diez en los íconos `complex`. Sale la marca `cross`; `close` y `plus` ya caben
+  en cinco y `move` es `complex`.
+- El detalle puede tener varios tramos (la punta de `move`, el nodo de `shareNodes`). La transición
+  interpola el detalle cuando los dos son de un tramo y si no lo cambia con un fundido.
+- `thumbUp`, `thumbDown`, `star`, `move`, `focus`, `offline`, `swipe` y `shareNodes`, redibujados con la
+  regla nueva.
 - El demo está en inglés.
 - Los `label` de los íconos y los mensajes de `validate()` están en inglés; quien los muestre como nombre accesible verá el texto nuevo.
 

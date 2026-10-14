@@ -1,5 +1,5 @@
-import { arc, line, part, rect, rectBody, ring, rotate, circleBody } from '../draw.js';
-import type { IconDefinition, IconGeometry } from '../geometry.js';
+import { arc, chain, chordAngle, circleBody, line, part, rect, rectBody, ring, rotate, toward } from '../draw.js';
+import type { IconDefinition, IconGeometry, Point } from '../geometry.js';
 
 const verticalArrows = (gap: number): IconGeometry => ({
     strokes: [[line(6, 9, 12, 3), line(12, 3, 12, 12), line(12, 12, 12, 21), line(12, 21, 18, 15)]],
@@ -48,11 +48,14 @@ export const opacity: IconDefinition = {
 export const swipe: IconDefinition = {
     name: 'swipe',
     label: 'Swipe',
-    build: () => ({
-        strokes: [[line(12, 5, 3, 5), line(3, 5, 3, 19), line(3, 19, 12, 19), line(12, 19, 12, 2)]],
-        detail: line(21, 5, 21, 19),
-        body: rectBody(3, 5, 12, 19),
-    }),
+    build: (gap) => {
+        const g = chordAngle(gap, 3);
+        return {
+            strokes: [rect(3, 5, 21, 19), [line(12, 3, 12, 9)], [line(12, 15, 12, 21)], [arc(12, 12, 3, 90, 270)]],
+            detail: arc(12, 12, 3, 270 + g, 450 - g),
+            body: rectBody(3, 5, 21, 19),
+        };
+    },
 };
 
 export const arrowsVertical: IconDefinition = { name: 'arrowsVertical', label: 'Up and down', build: verticalArrows };
@@ -62,19 +65,46 @@ export const focus: IconDefinition = {
     name: 'focus',
     label: 'Focus',
     build: () => ({
-        strokes: [rect(4, 4, 20, 20)],
-        detail: line(11, 12, 13, 12),
-        body: rectBody(4, 4, 20, 20),
+        strokes: [chain([4, 9], [4, 4], [9, 4]), chain([15, 4], [20, 4], [20, 9]), chain([20, 15], [20, 20], [15, 20]), chain([9, 20], [4, 20], [4, 15])],
+        detail: line(11.5, 12, 12.5, 12),
     }),
 };
 
 export const move: IconDefinition = {
     name: 'move',
     label: 'Move',
-    cross: true,
+    complex: true,
+    build: () => ({
+        strokes: [
+            chain([5.5, 9], [2.5, 12], [5.5, 15]), [line(2.5, 12, 7, 12)],
+            chain([9, 5.5], [12, 2.5], [15, 5.5]), [line(12, 2.5, 12, 7)],
+            chain([9, 18.5], [12, 21.5], [15, 18.5]), [line(12, 21.5, 12, 17)],
+        ],
+        detail: chain([18.5, 9], [21.5, 12], [18.5, 15]),
+    }),
+};
+
+export const pointer: IconDefinition = {
+    name: 'pointer',
+    label: 'Pointer',
+    build: (gap) => {
+        const bottom: Point = [6, 18.5];
+        const notch: Point = [10.5, 14];
+        return {
+            strokes: [chain([17, 14], [6, 3], bottom)],
+            detail: [line(...toward(bottom, notch, gap * Math.SQRT2), ...notch)],
+            body: [[6, 3], [17, 14], notch, bottom],
+        };
+    },
+};
+
+export const stop: IconDefinition = {
+    name: 'stop',
+    label: 'Stop',
     build: (gap) => ({
-        strokes: [[line(5, 9, 2, 12), line(2, 12, 22, 12)], [line(9, 5, 12, 2), line(12, 2, 12, 22)]],
-        detail: part(22, 12, 17, 17, gap * Math.SQRT2),
+        strokes: [chain([6, 18], [18, 18], [18, 6], [6, 6])],
+        detail: line(6, 6 + gap, 6, 14),
+        body: rectBody(6, 6, 18, 18),
     }),
 };
 
@@ -97,4 +127,4 @@ export const swap: IconDefinition = {
     }),
 };
 
-export const tools = [crop, columns, text, opacity, swipe, arrowsVertical, arrowsHorizontal, focus, move, undock, swap];
+export const tools = [crop, columns, text, opacity, swipe, arrowsVertical, arrowsHorizontal, focus, move, pointer, stop, undock, swap];

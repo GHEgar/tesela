@@ -11,7 +11,7 @@ describe('reglas de la identidad', () => {
         expect(new Set(names).size).toBe(names.length);
     });
 
-    it('solo las cruces llevan dos pincelazos', () => {
-        expect(icons.filter((icon) => icon.cross).map((icon) => icon.name).sort()).toEqual(['close', 'move', 'plus']);
+    it('solo los complejos pasan de cinco trazos', () => {
+        expect(icons.filter((icon) => icon.complex).map((icon) => icon.name).sort()).toEqual(['move']);
     });
 });

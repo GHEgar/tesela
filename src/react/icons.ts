@@ -1,11 +1,11 @@
 import {
-    alert, apps, arrowLeft, arrowRight, arrowsHorizontal, arrowsVertical, basemap, chat, check, chevronDown, chevronLeft,
-    chevronRight, chevronUp, circle, close, collapse, columns, compass, copy, crop, cube, diagram, documentIcon,
-    downloadIcon, drone, edit, expand, eye, eyeOff, filter, focus, folder, formula, globe, hexbin, history, home,
-    hummingbird, info, layers, lineChart, link, lock, mail, menu, microphone, minus, move, offline, opacity, pause,
-    phone, pin, play, plug, plus, point, polygon, polyline, ranking, raster, redo, refresh, ruler, search, send,
-    settings, share, shareNodes, spinner, star, stats, swap, swipe, table, text, thumbDown, thumbUp, translate,
-    trash, undoIcon, undock, unlock, upload, user, zoomIn, zoomOut,
+    alert, apps, arrowLeft, arrowRight, arrowsHorizontal, arrowsVertical, basemap, bell, chat, check, chevronDown,
+    chevronLeft, chevronRight, chevronUp, circle, close, collapse, columns, compass, copy, crop, cube, diagram,
+    documentIcon, downloadIcon, drone, edit, expand, eye, eyeOff, filter, focus, folder, formula, globe, hexbin,
+    history, home, hummingbird, info, layers, lineChart, link, lock, mail, menu, microphone, minus, move, offline,
+    opacity, pause, phone, pin, play, plug, plus, point, pointer, polygon, polyline, ranking, raster, redo, refresh,
+    ruler, search, send, settings, share, shareNodes, spinner, star, stats, stop, swap, swipe, table, text,
+    thumbDown, thumbUp, translate, trash, undoIcon, undock, unlock, upload, user, zoomIn, zoomOut,
 } from 'tesela';
 import { createIcon } from './IconSvg.js';
 
@@ -79,6 +79,8 @@ export const ArrowsVertical = createIcon(arrowsVertical);
 export const ArrowsHorizontal = createIcon(arrowsHorizontal);
 export const Focus = createIcon(focus);
 export const Move = createIcon(move);
+export const Pointer = createIcon(pointer);
+export const Stop = createIcon(stop);
 export const Undock = createIcon(undock);
 export const Swap = createIcon(swap);
 export const Ranking = createIcon(ranking);
@@ -96,3 +98,4 @@ export const Offline = createIcon(offline);
 export const Translate = createIcon(translate);
 export const Apps = createIcon(apps);
 export const ShareNodes = createIcon(shareNodes);
+export const Bell = createIcon(bell);
