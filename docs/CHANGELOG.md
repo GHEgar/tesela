@@ -24,13 +24,14 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/) y 
 
 ### Cambiado
 
-- La regla cuenta trazos, no segmentos: un trazo es una línea continua que puede doblar esquinas. Hasta
-  cinco contando el detalle, o diez en los íconos `complex`. Sale la marca `cross`; `close` y `plus` ya caben
-  en cinco y `move` es `complex`.
+- La regla cuenta trazos, no segmentos: un trazo es una línea continua que puede doblar esquinas. Exactamente
+  cinco en todo el set: cuatro del ícono y el detalle. `geometryOf` reparte en cuatro trazos las
+  definiciones que traen otro número. Sale la marca `cross`.
 - El detalle puede tener varios tramos (la punta de `move`, el nodo de `shareNodes`). La transición
   interpola el detalle cuando los dos son de un tramo y si no lo cambia con un fundido.
-- `thumbUp`, `thumbDown`, `star`, `move`, `focus`, `offline`, `swipe` y `shareNodes`, redibujados con la
-  regla nueva.
+- Redibujados con la regla nueva: `thumbUp`, `thumbDown`, `star`, `move`, `focus`, `offline`, `swipe`,
+  `shareNodes`, `crop`, `columns`, `text`, `opacity`, `arrowsVertical`, `arrowsHorizontal`, `undock`, `swap`,
+  `ranking`, `lineChart`, `hexbin`, `raster`, `microphone`, `diagram`, `plug`, `formula`, `translate` y `apps`.
 - El demo está en inglés.
 - Los `label` de los íconos y los mensajes de `validate()` están en inglés; quien los muestre como nombre accesible verá el texto nuevo.
 
