@@ -11,7 +11,7 @@ const eyeBody: Point[] = [
 
 export const table: IconDefinition = {
     name: 'table',
-    label: 'Tabla',
+    label: 'Table',
     build: (gap) => ({
         strokes: [rect(3.5, 5, 20.5, 19)],
         detail: line(3.5 + gap, 10, 20.5 - gap, 10),
@@ -21,7 +21,7 @@ export const table: IconDefinition = {
 
 export const eye: IconDefinition = {
     name: 'eye',
-    label: 'Ver',
+    label: 'Eye',
     build: () => ({
         strokes: [[
             arc(12, 16.52, lid, 180 + lidAngle, 270),
@@ -36,7 +36,7 @@ export const eye: IconDefinition = {
 
 export const eyeOff: IconDefinition = {
     name: 'eyeOff',
-    label: 'Ocultar',
+    label: 'Eye off',
     build: (gap) => {
         const slash = line(4, 4, 14, 14);
         const [left, right] = clearArc(12, 16.52, lid, 180 + lidAngle, 360 - lidAngle, slash, gap);
@@ -50,7 +50,7 @@ export const eyeOff: IconDefinition = {
 
 export const pin: IconDefinition = {
     name: 'pin',
-    label: 'Ubicación',
+    label: 'Location',
     freeAngles: true,
     build: () => ({
         strokes: [[line(12, 21.5, 6.8, 12.5), arc(12, 9.5, 6, 150, 270), arc(12, 9.5, 6, 270, 390), line(17.2, 12.5, 12, 21.5)]],
@@ -61,7 +61,7 @@ export const pin: IconDefinition = {
 
 export const user: IconDefinition = {
     name: 'user',
-    label: 'Usuario',
+    label: 'User',
     build: (gap) => ({
         strokes: [ring(12, 8, 4)],
         detail: arc(12, 20 + gap, 8, 200, 340),
@@ -71,7 +71,7 @@ export const user: IconDefinition = {
 
 export const documentIcon: IconDefinition = {
     name: 'document',
-    label: 'Documento',
+    label: 'Document',
     build: (gap) => ({
         strokes: [[line(14, 3, 6, 3), line(6, 3, 6, 21), line(6, 21, 19, 21), line(19, 21, 19, 8)]],
         detail: part(14, 3, 19, 8, gap, -gap),
@@ -81,7 +81,7 @@ export const documentIcon: IconDefinition = {
 
 export const folder: IconDefinition = {
     name: 'folder',
-    label: 'Carpeta',
+    label: 'Folder',
     build: (gap) => ({
         strokes: [rect(3, 8, 21, 20)],
         detail: line(3, 8 - gap, 9, 8 - gap),
@@ -91,7 +91,7 @@ export const folder: IconDefinition = {
 
 export const phone: IconDefinition = {
     name: 'phone',
-    label: 'Teléfono',
+    label: 'Phone',
     build: (gap) => ({
         strokes: [rect(7, 3, 17, 21)],
         detail: line(10.5, 21 - gap, 13.5, 21 - gap),
@@ -101,7 +101,7 @@ export const phone: IconDefinition = {
 
 export const mail: IconDefinition = {
     name: 'mail',
-    label: 'Correo',
+    label: 'Mail',
     build: (gap) => ({
         strokes: [rect(3, 6, 21, 18)],
         detail: arc(12, gap + 0.2, 8, 50, 130),
@@ -121,7 +121,7 @@ export const chat: IconDefinition = {
 
 export const globe: IconDefinition = {
     name: 'globe',
-    label: 'Sitio y redes',
+    label: 'Web and social',
     build: (gap) => {
         const bulge = 2;
         const radius = (81 + bulge * bulge) / (2 * bulge);

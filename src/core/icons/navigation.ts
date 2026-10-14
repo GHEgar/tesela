@@ -16,23 +16,23 @@ const arrow = (gap: number): IconGeometry => ({
 
 export const menu: IconDefinition = {
     name: 'menu',
-    label: 'Menú',
+    label: 'Menu',
     build: (gap) => ({
         strokes: [[line(20, 6, 4, 6), line(4, 6, 4, 12), line(4, 12, 4, 18), line(4, 18, 20, 18)]],
         detail: line(4 + gap, 12, 17, 12),
     }),
 };
 
-export const chevronDown: IconDefinition = { name: 'chevronDown', label: 'Abrir', build: chevron };
-export const chevronUp: IconDefinition = { name: 'chevronUp', label: 'Contraer', build: (gap) => mirrorY(chevron(gap)) };
-export const chevronLeft: IconDefinition = { name: 'chevronLeft', label: 'Anterior', build: (gap) => rotate(chevron(gap), 1) };
-export const chevronRight: IconDefinition = { name: 'chevronRight', label: 'Siguiente', build: (gap) => mirrorX(rotate(chevron(gap), 1)) };
-export const arrowRight: IconDefinition = { name: 'arrowRight', label: 'Avanzar', build: arrow };
-export const arrowLeft: IconDefinition = { name: 'arrowLeft', label: 'Volver', build: (gap) => mirrorX(arrow(gap)) };
+export const chevronDown: IconDefinition = { name: 'chevronDown', label: 'Show more', build: chevron };
+export const chevronUp: IconDefinition = { name: 'chevronUp', label: 'Show less', build: (gap) => mirrorY(chevron(gap)) };
+export const chevronLeft: IconDefinition = { name: 'chevronLeft', label: 'Previous', build: (gap) => rotate(chevron(gap), 1) };
+export const chevronRight: IconDefinition = { name: 'chevronRight', label: 'Next', build: (gap) => mirrorX(rotate(chevron(gap), 1)) };
+export const arrowRight: IconDefinition = { name: 'arrowRight', label: 'Forward', build: arrow };
+export const arrowLeft: IconDefinition = { name: 'arrowLeft', label: 'Back', build: (gap) => mirrorX(arrow(gap)) };
 
 export const home: IconDefinition = {
     name: 'home',
-    label: 'Inicio',
+    label: 'Home',
     build: (gap) => ({
         strokes: [[line(6, 20, 6, 11), line(6, 11, 12, 5), line(12, 5, 18, 11), line(18, 11, 18, 20)]],
         detail: line(6 + gap, 20, 18 - gap, 20),
@@ -42,7 +42,7 @@ export const home: IconDefinition = {
 
 export const expand: IconDefinition = {
     name: 'expand',
-    label: 'Ampliar',
+    label: 'Expand',
     build: (gap) => ({
         strokes: [[line(20, 10, 20, 4), line(20, 4, 12, 12), line(12, 12, 4, 20), line(4, 20, 4, 14)]],
         detail: line(12, 4, 20 - gap * Math.SQRT2, 4),
@@ -51,7 +51,7 @@ export const expand: IconDefinition = {
 
 export const collapse: IconDefinition = {
     name: 'collapse',
-    label: 'Reducir',
+    label: 'Collapse',
     build: (gap) => ({
         strokes: [[line(15, 3.5, 15, 9), line(15, 9, 12, 12), line(12, 12, 9, 15), line(9, 15, 9, 20.5)]],
         detail: line(15 + gap * Math.SQRT2, 9, 20.5, 9),

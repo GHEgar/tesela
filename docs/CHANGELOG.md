@@ -8,6 +8,7 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/) y 
 ### Cambiado
 
 - El demo está en inglés.
+- Los `label` de los íconos y los mensajes de `validate()` están en inglés; quien los muestre como nombre accesible verá el texto nuevo.
 
 ## [0.1.0] - 2026-10-13
 

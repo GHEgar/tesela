@@ -3,7 +3,7 @@ import type { IconDefinition } from '../geometry.js';
 
 export const check: IconDefinition = {
     name: 'check',
-    label: 'Listo',
+    label: 'Done',
     build: (gap) => ({
         strokes: [[part(4.5, 12.5, 9.5, 17.5, 2.5 + gap), ...split(9.5, 17.5, 19.5, 7.5, 3)]],
         detail: part(4.5, 12.5, 9.5, 17.5, 0, 2.5),
@@ -12,7 +12,7 @@ export const check: IconDefinition = {
 
 export const alert: IconDefinition = {
     name: 'alert',
-    label: 'Alerta',
+    label: 'Alert',
     freeAngles: true,
     build: (gap) => ({
         strokes: [[line(12, 12.5, 12, 3.5), line(12, 3.5, 21, 19.5), line(21, 19.5, 3, 19.5), line(3, 19.5, 12, 3.5)]],
@@ -23,7 +23,7 @@ export const alert: IconDefinition = {
 
 export const info: IconDefinition = {
     name: 'info',
-    label: 'Información',
+    label: 'Info',
     build: (gap) => ({
         strokes: [[arc(12, 12, 8, 90, 210), arc(12, 12, 8, 210, 330), arc(12, 12, 8, 330, 450), line(12, 20, 12, 12.5)]],
         detail: line(12, 11.5 - gap, 12, 12.5 - gap),
@@ -33,7 +33,7 @@ export const info: IconDefinition = {
 
 export const spinner: IconDefinition = {
     name: 'spinner',
-    label: 'Cargando',
+    label: 'Loading',
     spin: true,
     build: (gap) => {
         const g = chordAngle(gap, 8);
@@ -48,7 +48,7 @@ export const spinner: IconDefinition = {
 
 export const lock: IconDefinition = {
     name: 'lock',
-    label: 'Candado',
+    label: 'Lock',
     build: (gap) => ({
         strokes: [[line(5, 11, 19, 11), line(19, 11, 19, 20), line(19, 20, 5, 20), line(5, 20, 5, 11)]],
         detail: arc(12, 11 - gap, 4.5, 180, 360),
@@ -58,7 +58,7 @@ export const lock: IconDefinition = {
 
 export const unlock: IconDefinition = {
     name: 'unlock',
-    label: 'Abierto',
+    label: 'Unlock',
     build: (gap) => ({
         strokes: [[line(5, 11, 19, 11), line(19, 11, 19, 20), line(19, 20, 5, 20), line(5, 20, 5, 11)]],
         detail: arc(15, 10 - gap, 4.5, 180, 330),
@@ -68,7 +68,7 @@ export const unlock: IconDefinition = {
 
 export const play: IconDefinition = {
     name: 'play',
-    label: 'Reproducir',
+    label: 'Play',
     build: (gap) => ({
         strokes: [[line(8, 6, 8, 4), line(8, 4, 16, 12), line(16, 12, 8, 20), line(8, 20, 8, 13)]],
         detail: line(8, 6 + gap, 8, 13 - gap),
@@ -78,7 +78,7 @@ export const play: IconDefinition = {
 
 export const pause: IconDefinition = {
     name: 'pause',
-    label: 'Pausa',
+    label: 'Pause',
     build: () => ({
         strokes: [split(8, 5, 8, 19, 4)],
         detail: line(16, 5, 16, 19),

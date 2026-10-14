@@ -19,7 +19,7 @@ const undo = (gap: number): IconGeometry => {
 
 export const search: IconDefinition = {
     name: 'search',
-    label: 'Buscar',
+    label: 'Search',
     build: (gap) => {
         const g = chordAngle(gap, 6.5);
         return {
@@ -32,7 +32,7 @@ export const search: IconDefinition = {
 
 export const zoomOut: IconDefinition = {
     name: 'zoomOut',
-    label: 'Alejar',
+    label: 'Zoom out',
     build: () => ({
         strokes: [[line(20, 20, ...lens), arc(10.5, 10.5, 6.5, 45, 165), arc(10.5, 10.5, 6.5, 165, 285), arc(10.5, 10.5, 6.5, 285, 405)]],
         detail: line(8, 10.5, 13, 10.5),
@@ -42,7 +42,7 @@ export const zoomOut: IconDefinition = {
 
 export const zoomIn: IconDefinition = {
     name: 'zoomIn',
-    label: 'Acercar',
+    label: 'Zoom in',
     build: () => ({
         strokes: [[line(20, 20, ...lens), arc(10.5, 10.5, 6.5, 45, 165), arc(10.5, 10.5, 6.5, 165, 285), arc(10.5, 10.5, 6.5, 285, 405)]],
         detail: line(10.5, 8, 10.5, 13),
@@ -52,7 +52,7 @@ export const zoomIn: IconDefinition = {
 
 export const close: IconDefinition = {
     name: 'close',
-    label: 'Cerrar',
+    label: 'Close',
     cross: true,
     build: (gap) => ({
         strokes: [[part(6, 6, 12, 12, 3 + gap), line(12, 12, 18, 18)], [line(18, 6, 12, 12), line(12, 12, 6, 18)]],
@@ -62,7 +62,7 @@ export const close: IconDefinition = {
 
 export const plus: IconDefinition = {
     name: 'plus',
-    label: 'Agregar',
+    label: 'Add',
     cross: true,
     build: (gap) => ({
         strokes: [[line(8 + gap, 12, 12, 12), line(12, 12, 19, 12)], [line(12, 5, 12, 12), line(12, 12, 12, 19)]],
@@ -72,7 +72,7 @@ export const plus: IconDefinition = {
 
 export const minus: IconDefinition = {
     name: 'minus',
-    label: 'Quitar',
+    label: 'Remove',
     build: (gap) => ({
         strokes: [[line(8 + gap, 12, 12, 12), ...split(12, 12, 19, 12, 3)]],
         detail: line(5, 12, 8, 12),
@@ -81,7 +81,7 @@ export const minus: IconDefinition = {
 
 export const filter: IconDefinition = {
     name: 'filter',
-    label: 'Filtro',
+    label: 'Filter',
     build: (gap) => ({
         strokes: [[line(10, 20, 10, 11.5), line(10, 11.5, 3.5, 5), line(3.5, 5, 20.5, 5), line(20.5, 5, 14, 11.5)]],
         detail: line(14, 11.5 + gap, 14, 18),
@@ -89,12 +89,12 @@ export const filter: IconDefinition = {
     }),
 };
 
-export const downloadIcon: IconDefinition = { name: 'download', label: 'Descargar', build: download };
-export const upload: IconDefinition = { name: 'upload', label: 'Subir', build: (gap) => mirrorY(download(gap)) };
+export const downloadIcon: IconDefinition = { name: 'download', label: 'Download', build: download };
+export const upload: IconDefinition = { name: 'upload', label: 'Upload', build: (gap) => mirrorY(download(gap)) };
 
 export const edit: IconDefinition = {
     name: 'edit',
-    label: 'Editar',
+    label: 'Edit',
     build: (gap) => {
         const o = gap / Math.SQRT2;
         return {
@@ -107,7 +107,7 @@ export const edit: IconDefinition = {
 
 export const trash: IconDefinition = {
     name: 'trash',
-    label: 'Eliminar',
+    label: 'Delete',
     freeAngles: true,
     build: (gap) => ({
         strokes: [[line(4, 7, 20, 7), line(20, 7, 18, 20), line(18, 20, 6, 20), line(6, 20, 4, 7)]],
@@ -118,7 +118,7 @@ export const trash: IconDefinition = {
 
 export const copy: IconDefinition = {
     name: 'copy',
-    label: 'Copiar',
+    label: 'Copy',
     build: (gap) => ({
         strokes: [[line(9, 9, 20, 9), line(20, 9, 20, 20), line(20, 20, 9, 20), line(9, 20, 9, 9)]],
         detail: arc(14.5, 14.5, 5.5 * Math.SQRT2 + gap, 180, 270),
@@ -128,7 +128,7 @@ export const copy: IconDefinition = {
 
 export const refresh: IconDefinition = {
     name: 'refresh',
-    label: 'Recargar',
+    label: 'Refresh',
     build: (gap) => {
         const g = chordAngle(gap, 7);
         return {
@@ -139,12 +139,12 @@ export const refresh: IconDefinition = {
     },
 };
 
-export const undoIcon: IconDefinition = { name: 'undo', label: 'Deshacer', build: undo };
-export const redo: IconDefinition = { name: 'redo', label: 'Rehacer', build: (gap) => mirrorX(undo(gap)) };
+export const undoIcon: IconDefinition = { name: 'undo', label: 'Undo', build: undo };
+export const redo: IconDefinition = { name: 'redo', label: 'Redo', build: (gap) => mirrorX(undo(gap)) };
 
 export const history: IconDefinition = {
     name: 'history',
-    label: 'Historial',
+    label: 'History',
     build: (gap) => ({
         strokes: [[arc(12, 12, 7.5, 300, 200), arc(12, 12, 7.5, 200, 100), arc(12, 12, 7.5, 100, 0), line(19.5, 12, 22, 14.5)]],
         detail: line(12, 13, 12, 5 + gap),
@@ -154,7 +154,7 @@ export const history: IconDefinition = {
 
 export const send: IconDefinition = {
     name: 'send',
-    label: 'Enviar',
+    label: 'Send',
     freeAngles: true,
     build: (gap) => ({
         strokes: [[line(4, 4, 20, 12), line(20, 12, 4, 20), line(4, 20, 8, 12), line(8, 12, 4, 4)]],
@@ -165,7 +165,7 @@ export const send: IconDefinition = {
 
 export const share: IconDefinition = {
     name: 'share',
-    label: 'Compartir',
+    label: 'Share',
     build: () => ({
         strokes: [[line(10, 5, 5, 5), line(5, 5, 5, 19), line(5, 19, 19, 19), line(19, 19, 19, 14)]],
         detail: line(12, 12, 20, 4),
@@ -174,7 +174,7 @@ export const share: IconDefinition = {
 
 export const link: IconDefinition = {
     name: 'link',
-    label: 'Enlace',
+    label: 'Link',
     build: (gap) => {
         const outer = 10.5 - gap;
         const radius = (15.5 - outer) / 2;
@@ -187,7 +187,7 @@ export const link: IconDefinition = {
 
 export const settings: IconDefinition = {
     name: 'settings',
-    label: 'Configuración',
+    label: 'Settings',
     build: (gap) => {
         const w = 1.6;
         const r = 4.5;

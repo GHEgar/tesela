@@ -14,4 +14,4 @@ const symbols = icons.flatMap((icon) => [
 
 mkdirSync('dist', { recursive: true });
 writeFileSync('dist/sprite.svg', `<svg xmlns="http://www.w3.org/2000/svg" style="display:none">${symbols.join('')}</svg>\n`);
-process.stdout.write(`sprite.svg: ${symbols.length} símbolos\n`);
+process.stdout.write(`sprite.svg: ${symbols.length} symbols\n`);
