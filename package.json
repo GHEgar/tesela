@@ -1,7 +1,7 @@
 {
     "name": "tesela",
     "version": "0.1.0",
-    "description": "Mosaic-identity icon set: five strokes, one brushstroke and a dynamic detail tone, with a tiled variant and transitions. Framework-free core, React components and SVG sprite.",
+    "description": "Mosaic-identity icon set: five strokes, a dynamic detail tone, tiled variant and transitions. Core, React and sprite.",
     "license": "AGPL-3.0-only",
     "author": "Edgar Villarreal",
     "type": "module",
