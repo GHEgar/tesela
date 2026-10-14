@@ -1,7 +1,7 @@
 import { arc, line, part, rect, rectBody, ring, rotate, circleBody } from '../draw.js';
 import type { IconDefinition, IconGeometry } from '../geometry.js';
 
-const arrowsVertical = (gap: number): IconGeometry => ({
+const verticalArrows = (gap: number): IconGeometry => ({
     strokes: [[line(6, 9, 12, 3), line(12, 3, 12, 12), line(12, 12, 12, 21), line(12, 21, 18, 15)]],
     detail: part(12, 3, 18, 9, gap * Math.SQRT2),
 });
@@ -55,8 +55,8 @@ export const swipe: IconDefinition = {
     }),
 };
 
-export const arrowsV: IconDefinition = { name: 'arrowsVertical', label: 'Up and down', build: arrowsVertical };
-export const arrowsH: IconDefinition = { name: 'arrowsHorizontal', label: 'Left and right', build: (gap) => rotate(arrowsVertical(gap), 1) };
+export const arrowsVertical: IconDefinition = { name: 'arrowsVertical', label: 'Up and down', build: verticalArrows };
+export const arrowsHorizontal: IconDefinition = { name: 'arrowsHorizontal', label: 'Left and right', build: (gap) => rotate(verticalArrows(gap), 1) };
 
 export const focus: IconDefinition = {
     name: 'focus',
@@ -97,4 +97,4 @@ export const swap: IconDefinition = {
     }),
 };
 
-export const tools = [crop, columns, text, opacity, swipe, arrowsV, arrowsH, focus, move, undock, swap];
+export const tools = [crop, columns, text, opacity, swipe, arrowsVertical, arrowsHorizontal, focus, move, undock, swap];

@@ -2,7 +2,7 @@ import { arc, clearArc, circleBody, line, mirrorY, rect, rectBody, split } from 
 import { polar, sampleSegment } from '../geometry.js';
 import type { IconDefinition, IconGeometry, Point } from '../geometry.js';
 
-const thumbUp = (gap: number): IconGeometry => ({
+const thumb = (gap: number): IconGeometry => ({
     strokes: [rect(7, 11, 20, 20)],
     detail: line(9, 11 - gap, 12, 3.5),
     body: rectBody(7, 11, 20, 20),
@@ -104,8 +104,8 @@ export const formula: IconDefinition = {
     }),
 };
 
-export const thumbsUp: IconDefinition = { name: 'thumbUp', label: 'Thumb up', freeAngles: true, build: thumbUp };
-export const thumbsDown: IconDefinition = { name: 'thumbDown', label: 'Thumb down', freeAngles: true, build: (gap) => mirrorY(thumbUp(gap)) };
+export const thumbUp: IconDefinition = { name: 'thumbUp', label: 'Thumb up', freeAngles: true, build: thumb };
+export const thumbDown: IconDefinition = { name: 'thumbDown', label: 'Thumb down', freeAngles: true, build: (gap) => mirrorY(thumb(gap)) };
 
 export const offline: IconDefinition = {
     name: 'offline',
@@ -167,6 +167,6 @@ export const shareNodes: IconDefinition = {
 };
 
 export const content = [
-    ranking, lineChart, hexbin, raster, microphone, diagram, plug, star, formula, thumbsUp, thumbsDown, offline,
+    ranking, lineChart, hexbin, raster, microphone, diagram, plug, star, formula, thumbUp, thumbDown, offline,
     translate, apps, shareNodes,
 ];

@@ -6,7 +6,7 @@
 
 Mosaic-identity icon set: five strokes, a dynamic detail tone, four variants and transitions. Core, React and sprite.
 
-![Twenty icons in the line and tiled variants, on a light and a dark background](.github/assets/catalog.png)
+![Forty icons in the line, tiled, filled and duotone variants, on a light and a dark background](.github/assets/catalog.png)
 
 **[Live demo](https://ghegar.github.io/tesela/)**
 
