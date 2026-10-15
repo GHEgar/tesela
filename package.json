@@ -12,6 +12,14 @@
     ],
     "license": "AGPL-3.0-only",
     "author": "Edgar Villarreal",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/GHEgar/tesela.git"
+    },
+    "homepage": "https://github.com/GHEgar/tesela#readme",
+    "bugs": {
+        "url": "https://github.com/GHEgar/tesela/issues"
+    },
     "type": "module",
     "sideEffects": false,
     "files": [
@@ -30,6 +38,7 @@
     },
     "scripts": {
         "build": "rm -rf dist && tsc -p tsconfig.build.json && node scripts/sprite.ts",
+        "prepublishOnly": "npm run build",
         "typecheck": "tsc -p tsconfig.json --noEmit",
         "lint": "eslint .",
         "test": "vitest run",
@@ -67,5 +76,8 @@
         "eslint-plugin-jsx-a11y": {
             "eslint": "$eslint"
         }
+    },
+    "publishConfig": {
+        "access": "public"
     }
 }

@@ -32,6 +32,7 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/) y 
 - `validate()` acepta un punto (un tramo de largo cero) como detalle o como trazo.
 - Un trazo de largo cero no lleva marca de unión.
 - En los íconos con animación de spinner no se dibujan las uniones, porque el anillo aparece y desaparece.
+- Un workflow publica en npm cada tag `vx.y.z` con trusted publishing y crea el GitHub Release.
 
 ## [0.2.0] - 2026-10-14
 
