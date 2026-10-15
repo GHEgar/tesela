@@ -1,8 +1,31 @@
-import { arc, chordAngle, circleBody, line, mirrorX, mirrorY, part, split } from '../draw.js';
-import { polar } from '../geometry.js';
-import type { IconDefinition, IconGeometry } from '../geometry.js';
+import { arc, chain, circleBody, line, mirrorX, mirrorY, split, toward } from '../draw.js';
+import { distanceToSegment, polar } from '../geometry.js';
+import type { IconDefinition, IconGeometry, Line, Point, Segment } from '../geometry.js';
 
-const lens = polar([10.5, 10.5], 6.5, 45);
+const LENS: Point = [10.5, 10.5];
+const handle = line(...polar(LENS, 7, 45), 20.5, 20.5);
+const reach = (gap: number): number => Math.min(2.5, 4.9 - 1.2 * gap);
+
+const glint = (gap: number, arm: number): Segment => {
+    const r = Math.min(4.8, 6.9 - gap);
+    let s = 25;
+    while (s > 1 && Math.hypot(...polar([arm, 0], r, 225 - s)) < gap) s -= 0.5;
+    return arc(...LENS, r, 225 - s, 225 + s);
+};
+
+const hook = (base: Point, dx: number, size: number, gap: number): { head: Line[]; detail: Line } => {
+    const s = Math.max(size, gap * Math.SQRT2);
+    const tip: Point = [base[0] + dx * s, base[1]];
+    const outer: Point = [base[0], base[1] - s];
+    return { head: chain(base, [base[0], base[1] + s], tip), detail: line(...outer, ...toward(outer, tip, s * Math.SQRT2 - gap)) };
+};
+
+const clearUntil = (from: Point, to: Point, edges: readonly (readonly [Point, Point])[], gap: number): Point => {
+    const at = (k: number): Point => [from[0] + (to[0] - from[0]) * k, from[1] + (to[1] - from[1]) * k];
+    let t = 0;
+    while (t < 1 && edges.every(([a, b]) => distanceToSegment(at(t + 0.002), a, b) >= gap)) t += 0.002;
+    return at(t);
+};
 
 const download = (gap: number): IconGeometry => ({
     strokes: [[line(12, 3.5, 12, 10.5), line(12, 10.5, 16.5, 10.5), line(16.5, 10.5, 12, 15), line(12, 15, 7.5, 10.5)]],
@@ -10,52 +33,57 @@ const download = (gap: number): IconGeometry => ({
 });
 
 const undo = (gap: number): IconGeometry => {
-    const t = gap * Math.SQRT2;
-    return {
-        strokes: [[line(9.5, 5.5, 6, 9), line(6, 9, 15, 9), arc(15, 14.5, 5.5, 270, 360), arc(15, 14.5, 5.5, 0, 90)]],
-        detail: part(6, 9, 12, 15, t, t + 2.5),
-    };
+    const { head, detail } = hook([8.5, 9], -1, 4, gap);
+    return { strokes: [[arc(15, 14.5, 5.5, 90, 0), arc(15, 14.5, 5.5, 0, -90), line(15, 9, 8.5, 9), ...head]], detail };
 };
 
 export const search: IconDefinition = {
     name: 'search',
     label: 'Search',
-    build: (gap) => {
-        const g = chordAngle(gap, 6.5);
-        return {
-            strokes: [[line(20, 20, ...lens), arc(10.5, 10.5, 6.5, 45, 135), arc(10.5, 10.5, 6.5, 135, 225), arc(10.5, 10.5, 6.5, 225, 300)]],
-            detail: arc(10.5, 10.5, 6.5, 300 + g, 405 - g),
-            body: circleBody(10.5, 10.5, 6.5),
-        };
-    },
+    build: (gap) => ({
+        strokes: [[arc(...LENS, 7, 45, 165)], [arc(...LENS, 7, 165, 285)], [arc(...LENS, 7, 285, 405)], [handle]],
+        detail: glint(gap, 0),
+        body: circleBody(...LENS, 7),
+    }),
 };
 
 export const zoomOut: IconDefinition = {
     name: 'zoomOut',
     label: 'Zoom out',
-    build: () => ({
-        strokes: [[line(20, 20, ...lens), arc(10.5, 10.5, 6.5, 45, 165), arc(10.5, 10.5, 6.5, 165, 285), arc(10.5, 10.5, 6.5, 285, 405)]],
-        detail: line(8, 10.5, 13, 10.5),
-        body: circleBody(10.5, 10.5, 6.5),
-    }),
+    build: (gap) => {
+        const a = reach(gap);
+        return {
+            strokes: [[arc(...LENS, 7, 45, 225)], [arc(...LENS, 7, 225, 405)], [handle], [line(10.5 - a, 10.5, 10.5 + a, 10.5)]],
+            detail: glint(gap, a),
+            body: circleBody(...LENS, 7),
+        };
+    },
 };
 
 export const zoomIn: IconDefinition = {
     name: 'zoomIn',
     label: 'Zoom in',
-    build: () => ({
-        strokes: [[line(20, 20, ...lens), arc(10.5, 10.5, 6.5, 45, 165), arc(10.5, 10.5, 6.5, 165, 285), arc(10.5, 10.5, 6.5, 285, 405)]],
-        detail: line(10.5, 8, 10.5, 13),
-        body: circleBody(10.5, 10.5, 6.5),
-    }),
+    build: (gap) => {
+        const a = reach(gap);
+        return {
+            strokes: [
+                [arc(...LENS, 7, 45, 225), arc(...LENS, 7, 225, 405)],
+                [handle],
+                [line(10.5 - a, 10.5, 10.5 + a, 10.5)],
+                [line(10.5, 10.5 - a, 10.5, 10.5 + a)],
+            ],
+            detail: glint(gap, a),
+            body: circleBody(...LENS, 7),
+        };
+    },
 };
 
 export const close: IconDefinition = {
     name: 'close',
     label: 'Close',
     build: (gap) => ({
-        strokes: [[part(6, 6, 12, 12, 3 + gap), line(12, 12, 18, 18)], [line(18, 6, 12, 12), line(12, 12, 6, 18)]],
-        detail: part(6, 6, 12, 12, 0, 3),
+        strokes: [[line(12, 12, 18, 6)], [line(12, 12, 6, 18)], [line(12, 12, 15, 15)], [line(15, 15, 18, 18)]],
+        detail: line(6, 6, ...toward([12, 12], [6, 6], gap)),
     }),
 };
 
@@ -63,8 +91,8 @@ export const plus: IconDefinition = {
     name: 'plus',
     label: 'Add',
     build: (gap) => ({
-        strokes: [[line(8 + gap, 12, 12, 12), line(12, 12, 19, 12)], [line(12, 5, 12, 12), line(12, 12, 12, 19)]],
-        detail: line(5, 12, 8, 12),
+        strokes: [[line(12, 5, 12, 12)], [line(12, 12, 12, 19)], [line(12, 12, 15.5, 12)], [line(15.5, 12, 19, 12)]],
+        detail: line(5, 12, 12 - gap, 12),
     }),
 };
 
@@ -94,10 +122,10 @@ export const edit: IconDefinition = {
     name: 'edit',
     label: 'Edit',
     build: (gap) => {
-        const o = gap / Math.SQRT2;
+        const k = gap / Math.SQRT2;
         return {
-            strokes: [[line(15, 4, 4, 15), line(4, 15, 4, 20), line(4, 20, 9, 20), line(9, 20, 20, 9)]],
-            detail: line(15 + o, 4 - o, 20 + o, 9 - o),
+            strokes: [chain([15, 4], [4, 15], [4, 20], [9, 20], [20, 9], [15, 4])],
+            detail: line(17.5 - k, 6.5 + k, 8.5, 15.5),
             body: [[15, 4], [4, 15], [4, 20], [9, 20], [20, 9]],
         };
     },
@@ -108,31 +136,38 @@ export const trash: IconDefinition = {
     label: 'Delete',
     freeAngles: true,
     build: (gap) => ({
-        strokes: [[line(4, 7, 20, 7), line(20, 7, 18, 20), line(18, 20, 6, 20), line(6, 20, 4, 7)]],
-        detail: line(9, 7 - gap, 15, 7 - gap),
-        body: [[4, 7], [20, 7], [18, 20], [6, 20]],
+        strokes: [[line(4, 7, 20, 7)], chain([6, 7 + gap], [7, 20], [17, 20], [18, 7 + gap]), [line(10, 11, 10, 16.5)], [line(14, 11, 14, 16.5)]],
+        detail: chain([9, 7 - gap], [9, 3], [15, 3], [15, 7 - gap]),
+        body: [[6, 7], [18, 7], [17, 20], [7, 20]],
     }),
 };
 
 export const copy: IconDefinition = {
     name: 'copy',
     label: 'Copy',
-    build: (gap) => ({
-        strokes: [[line(9, 9, 20, 9), line(20, 9, 20, 20), line(20, 20, 9, 20), line(9, 20, 9, 9)]],
-        detail: arc(14.5, 14.5, 5.5 * Math.SQRT2 + gap, 180, 270),
-        body: [[9, 9], [20, 9], [20, 20], [9, 20]],
-    }),
+    freeAngles: true,
+    build: (gap) => {
+        const front: Point[] = [[14.25, 9.5], [20.5, 20.5], [8, 20.5]];
+        const [f0, f1, f2] = front as [Point, Point, Point];
+        const edges: [Point, Point][] = [[f0, f1], [f1, f2], [f2, f0]];
+        const [b0, b1, b2] = front.map(([x, y]): Point => [x - 3, y - 3]) as [Point, Point, Point];
+        return {
+            strokes: [chain(f1, f0, f2, f1)],
+            detail: chain(clearUntil(b0, b1, edges, gap), b0, b2, clearUntil(b2, b1, edges, gap)),
+            body: front,
+        };
+    },
 };
 
 export const refresh: IconDefinition = {
     name: 'refresh',
     label: 'Refresh',
     build: (gap) => {
-        const g = chordAngle(gap, 7);
+        const { head, detail } = hook([12, 5.5], 1, 3.5, gap);
         return {
-            strokes: [[arc(12, 12, 7, 60 + g, 130), arc(12, 12, 7, 130, 200), arc(12, 12, 7, 200, 270), line(12, 5, 8.5, 1.5)]],
-            detail: arc(12, 12, 7, 0, 60),
-            body: circleBody(12, 12, 7),
+            strokes: [[arc(12, 13, 7.5, -30, 90), arc(12, 13, 7.5, 90, 270), ...head]],
+            detail,
+            body: circleBody(12, 13, 7.5),
         };
     },
 };
@@ -143,11 +178,21 @@ export const redo: IconDefinition = { name: 'redo', label: 'Redo', build: (gap) 
 export const history: IconDefinition = {
     name: 'history',
     label: 'History',
-    build: (gap) => ({
-        strokes: [[arc(12, 12, 7.5, 300, 200), arc(12, 12, 7.5, 200, 100), arc(12, 12, 7.5, 100, 0), line(19.5, 12, 22, 14.5)]],
-        detail: line(12, 13, 12, 5 + gap),
-        body: circleBody(12, 12, 7.5),
-    }),
+    freeAngles: true,
+    build: (gap) => {
+        const e = polar([12, 13], 7.5, 210);
+        const at = (deg: number): Point => [e[0] + 3 * Math.cos(deg * Math.PI / 180), e[1] + 3 * Math.sin(deg * Math.PI / 180)];
+        return {
+            strokes: [
+                [arc(12, 13, 7.5, 300, 420)],
+                [arc(12, 13, 7.5, 420, 570)],
+                chain(e, at(30), at(-60), at(210)),
+                [line(12, 13, ...polar([12, 13], 3.6, 60))],
+            ],
+            detail: line(12 + (gap + 0.25) * 2 / Math.sqrt(3), 13, 16.2, 13),
+            body: circleBody(12, 13, 7.5),
+        };
+    },
 };
 
 export const send: IconDefinition = {
@@ -174,11 +219,16 @@ export const link: IconDefinition = {
     name: 'link',
     label: 'Link',
     build: (gap) => {
-        const outer = 10.5 - gap;
-        const radius = (15.5 - outer) / 2;
+        const x = 8.5 + gap;
+        const right = Math.max(14, x + gap);
         return {
-            strokes: [[line(10.5, 8, 10.5, 15.5), arc(13, 15.5, 2.5, 180, 0), line(15.5, 15.5, 15.5, 6), arc(outer + radius, 6, radius, 0, -180)]],
-            detail: line(outer, 6 + gap, outer, 17.5),
+            strokes: [[
+                line(8.5, 17.5, 8.5, 6),
+                arc((8.5 + right) / 2, 6, (right - 8.5) / 2, 180, 360),
+                line(right, 6, right, 15.5),
+                arc((x + right) / 2, 15.5, (right - x) / 2, 0, 180),
+            ]],
+            detail: line(x, 15.5 - gap, x, 8.5),
         };
     },
 };
@@ -186,23 +236,10 @@ export const link: IconDefinition = {
 export const settings: IconDefinition = {
     name: 'settings',
     label: 'Settings',
-    build: (gap) => {
-        const w = 1.6;
-        const r = 4.5;
-        const reach = 10 * Math.SQRT2 - Math.sqrt(r * r - w * w);
-        const at = (t: number, n: number): [number, number] => [5 + (t + n) / Math.SQRT2, 19 + (n - t) / Math.SQRT2];
-        const side = 180 - (Math.asin(w / r) * 180) / Math.PI;
-        const g = chordAngle(gap, r);
-        return {
-            strokes: [[
-                line(...at(reach, w), ...at(0, w)),
-                arc(5, 19, w, 45, 225),
-                line(...at(0, -w), ...at(reach, -w)),
-                arc(15, 9, r, 315 - side + 360, 640),
-            ]],
-            detail: arc(15, 9, r, 350, 315 + side - g),
-        };
-    },
+    build: (gap) => ({
+        strokes: [[line(4, 8, 6.49, 8)], [arc(9, 8, 2.5, 0, 180), arc(9, 8, 2.5, 180, 360)], [line(11.5, 8, 20, 8)], [line(4, 16, 14.5 - gap, 16)]],
+        detail: [arc(17, 16, 2.5, 0, 180), arc(17, 16, 2.5, 180, 360)],
+    }),
 };
 
 export const actions = [

@@ -5,6 +5,34 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/) y 
 
 ## [No publicado]
 
+## [0.3.0] - 2026-10-15
+
+### Agregado
+
+- La animación del spinner: la cabeza (el detalle) da vueltas, en una se come el anillo y en la siguiente lo
+  redibuja detrás de ella. Sale en el SVG del core, en el sprite y en React; `orbitOf()` y `IconParts.orbit`
+  dan los tiempos.
+
+### Cambiado
+
+- Redibujados 62 íconos con el lenguaje del set:
+  - Flechas: la punta queda abierta y uno de sus lados es el detalle.
+  - Chevrons: un lado completo es el detalle.
+  - Lupas: el detalle es un brillo en el vidrio.
+  - Navegación: `menu`, `chevronDown`, `chevronUp`, `chevronLeft`, `chevronRight`, `arrowLeft`, `arrowRight`,
+    `home`, `expand` y `collapse`.
+  - Acciones: `search`, `zoomIn`, `zoomOut`, `close`, `plus`, `edit`, `trash`, `copy`, `refresh`, `undo`, `redo`,
+    `history`, `link` y `settings`.
+  - Estado: `check`, `alert`, `info`, `spinner`, `lock`, `unlock` y `play`.
+  - Objetos: `table`, `eye`, `eyeOff`, `pin`, `user`, `folder`, `phone`, `mail`, `chat` y `globe`.
+  - Mapa: `layers`, `basemap`, `ruler`, `point`, `polyline`, `polygon`, `circle`, `drone`, `stats`, `cube`,
+    `compass` y `hummingbird`.
+  - Herramientas: `opacity`, `arrowsVertical`, `arrowsHorizontal`, `focus`, `move`, `pointer`, `stop`, `undock`
+    y `swap`.
+- `validate()` acepta un punto (un tramo de largo cero) como detalle o como trazo.
+- Un trazo de largo cero no lleva marca de unión.
+- En los íconos con animación de spinner no se dibujan las uniones, porque el anillo aparece y desaparece.
+
 ## [0.2.0] - 2026-10-14
 
 ### Agregado

@@ -34,6 +34,13 @@ describe('renderIcon', () => {
         expect(renderIcon(spinner)).toContain('animateTransform');
     });
 
+    it('la cabeza del spinner se come el resto en una vuelta y lo redibuja en la siguiente', () => {
+        const svg = renderIcon(spinner);
+        expect(svg.match(/attributeName="stroke-dasharray"/g)).toHaveLength(4);
+        expect(svg.match(/attributeName="transform"/g)).toHaveLength(1);
+        expect(svg).toMatch(/<g><path [^>]+\/><animateTransform/);
+    });
+
     it('cada ícono tiene un solo detalle', () => {
         for (const icon of icons) {
             expect(renderIcon(icon, { seams: false }).match(/style="stroke:/g)).toHaveLength(1);

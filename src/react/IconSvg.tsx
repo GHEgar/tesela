@@ -68,25 +68,39 @@ export function SvgFrame({ parts, props, children }: SvgFrameProps): ReactNode {
     );
 }
 
+const Turn = ({ lap }: { readonly lap: number }): ReactNode => (
+    <animateTransform attributeName="transform" type="rotate" from="0 12 12" to="360 12 12" dur={`${lap}s`} repeatCount="indefinite" />
+);
+
+const Strokes = ({ parts }: { readonly parts: IconParts }): ReactNode => parts.strokes.map((d, i) => {
+    const o = parts.orbit?.strokes[i];
+    if (!o || !parts.orbit) return <path key={d} d={d} />;
+    const dur = `${parts.orbit.lap * 2}s`;
+    return (
+        <path key={d} d={d} pathLength={o.length}>
+            <animate attributeName="stroke-dasharray" values={o.dasharray} keyTimes={o.keyTimes} dur={dur} repeatCount="indefinite" />
+            <animate attributeName="stroke-dashoffset" values={o.dashoffset} keyTimes={o.keyTimes} dur={dur} repeatCount="indefinite" />
+            <animate attributeName="opacity" values="1;0;1" keyTimes={o.opacityTimes} calcMode="discrete" dur={dur} repeatCount="indefinite" />
+        </path>
+    );
+});
+
 export function IconSvg({ definition, ...props }: IconProps & { readonly definition: IconDefinition }): ReactNode {
     const parts = partsFor(definition, props);
+    const lap = parts.orbit?.lap ?? 1;
+    const detail = <path d={parts.detail.d} stroke={parts.detail.attribute} style={{ stroke: parts.detail.style }} />;
     const body = (
         <>
             <Fill parts={parts} />
             <Tiles parts={parts} />
-            {parts.strokes.map((d) => <path key={d} d={d} />)}
+            <Strokes parts={parts} />
             <Seams parts={parts} />
-            <path d={parts.detail.d} stroke={parts.detail.attribute} style={{ stroke: parts.detail.style }} />
+            {parts.orbit ? <g>{detail}<Turn lap={lap} /></g> : detail}
         </>
     );
     return (
         <SvgFrame parts={parts} props={props}>
-            {parts.spin ? (
-                <g>
-                    {body}
-                    <animateTransform attributeName="transform" type="rotate" from="0 12 12" to="360 12 12" dur="1s" repeatCount="indefinite" />
-                </g>
-            ) : body}
+            {parts.spin && !parts.orbit ? <g>{body}<Turn lap={lap} /></g> : body}
         </SvgFrame>
     );
 }

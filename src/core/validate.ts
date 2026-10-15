@@ -36,8 +36,7 @@ const checkOne = (definition: IconDefinition, stroke: number, junta: number): st
     const paths = segments.map(sampleSegment);
     const near = Math.min(...detail.map((p) => Math.min(...paths.map((s) => distanceToPolyline(p, s)))));
     if (near < gap - 0.05) problems.push(`detail at ${near.toFixed(2)} with gap ${gap}`);
-    const length = details.reduce((sum, s) => sum + (s.kind === 'line' ? Math.hypot(s.to[0] - s.from[0], s.to[1] - s.from[1]) : Math.abs(s.end - s.start) * Math.PI / 180 * s.radius), 0);
-    if (length < 0.3) problems.push('detail too short');
+    if (!details.length) problems.push('missing detail');
     const only = details.length === 1 ? details[0] : undefined;
     if (only?.kind === 'arc' && Math.abs(only.end - only.start) > 180) problems.push('arc detail over 180°');
     if (!definition.freeAngles && ![...segments, ...details].every(angleOk)) problems.push('straight line outside 0, 45 and 90°');

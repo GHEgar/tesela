@@ -1,12 +1,19 @@
-import { arc, chordAngle, circleBody, line, part, split } from '../draw.js';
-import type { IconDefinition } from '../geometry.js';
+import { arc, chordAngle, line, part, split } from '../draw.js';
+import type { IconDefinition, Segment } from '../geometry.js';
+
+const lockBody = (): Segment[][] => [
+    [line(7, 11, 17, 11), arc(17, 13, 2, 270, 360)],
+    [line(19, 13, 19, 18), arc(17, 18, 2, 0, 90)],
+    [line(17, 20, 7, 20), arc(7, 18, 2, 90, 180)],
+    [line(5, 18, 5, 13), arc(7, 13, 2, 180, 270)],
+];
 
 export const check: IconDefinition = {
     name: 'check',
     label: 'Done',
     build: (gap) => ({
-        strokes: [[part(4.5, 12.5, 9.5, 17.5, 2.5 + gap), ...split(9.5, 17.5, 19.5, 7.5, 3)]],
-        detail: part(4.5, 12.5, 9.5, 17.5, 0, 2.5),
+        strokes: split(9.5, 17.5, 19.5, 7.5, 4).map((s) => [s]),
+        detail: part(4.5, 12.5, 9.5, 17.5, 0, -gap),
     }),
 };
 
@@ -14,20 +21,27 @@ export const alert: IconDefinition = {
     name: 'alert',
     label: 'Alert',
     freeAngles: true,
-    build: (gap) => ({
-        strokes: [[line(12, 12.5, 12, 3.5), line(12, 3.5, 21, 19.5), line(21, 19.5, 3, 19.5), line(3, 19.5, 12, 3.5)]],
-        detail: line(12, 12.5 + gap, 12, Math.min(13.5 + gap, 19.5 - gap)),
-        body: [[12, 3.5], [21, 19.5], [3, 19.5]],
-    }),
+    build: (gap) => {
+        const dot = 8.5 + (gap - 2) * Math.hypot(9, 16) / 9;
+        return {
+            strokes: [
+                [line(12, 3.5, 21, 19.5)],
+                [line(21, 19.5, 3, 19.5)],
+                [line(3, 19.5, 12, 3.5)],
+                [line(12, dot + gap + 1, 12, 16.5)],
+            ],
+            detail: line(12, dot, 12, dot),
+            body: [[12, 3.5], [21, 19.5], [3, 19.5]],
+        };
+    },
 };
 
 export const info: IconDefinition = {
     name: 'info',
     label: 'Info',
     build: (gap) => ({
-        strokes: [[arc(12, 12, 8, 90, 210), arc(12, 12, 8, 210, 330), arc(12, 12, 8, 330, 450), line(12, 20, 12, 12.5)]],
-        detail: line(12, 11.5 - gap, 12, 12.5 - gap),
-        body: circleBody(12, 12, 8),
+        strokes: [[line(10, 10, 12, 10)], [line(12, 10, 12, 19)], [line(9, 19, 12, 19)], [line(12, 19, 15, 19)]],
+        detail: [arc(12, 7.8 - gap, 1.4, 0, 180), arc(12, 7.8 - gap, 1.4, 180, 360)],
     }),
 };
 
@@ -36,9 +50,8 @@ export const spinner: IconDefinition = {
     label: 'Loading',
     spin: true,
     build: (gap) => {
-        const g = chordAngle(gap, 8);
-        const from = 330 + g;
-        const step = (360 - 60 - 2 * g) / 4;
+        const from = 20;
+        const step = (270 - chordAngle(gap, 8) - from) / 4;
         return {
             strokes: [[0, 1, 2, 3].map((i) => arc(12, 12, 8, from + step * i, from + step * (i + 1)))],
             detail: arc(12, 12, 8, 270, 330),
@@ -50,7 +63,7 @@ export const lock: IconDefinition = {
     name: 'lock',
     label: 'Lock',
     build: (gap) => ({
-        strokes: [[line(5, 11, 19, 11), line(19, 11, 19, 20), line(19, 20, 5, 20), line(5, 20, 5, 11)]],
+        strokes: lockBody(),
         detail: arc(12, 11 - gap, 4.5, 180, 360),
         body: [[5, 11], [19, 11], [19, 20], [5, 20]],
     }),
@@ -59,19 +72,23 @@ export const lock: IconDefinition = {
 export const unlock: IconDefinition = {
     name: 'unlock',
     label: 'Unlock',
-    build: (gap) => ({
-        strokes: [[line(5, 11, 19, 11), line(19, 11, 19, 20), line(19, 20, 5, 20), line(5, 20, 5, 11)]],
-        detail: arc(15, 10 - gap, 4.5, 180, 330),
-        body: [[5, 11], [19, 11], [19, 20], [5, 20]],
-    }),
+    build: (gap) => {
+        const t = -Math.min(40 * Math.PI / 180, Math.asin((11 - 1.5 * gap) / 4.5 - 1));
+        const turn = t * 180 / Math.PI;
+        return {
+            strokes: lockBody(),
+            detail: arc(7.5 + 4.5 * Math.cos(t), 11 - gap + 4.5 * Math.sin(t), 4.5, 180 + turn, 360 + turn),
+            body: [[5, 11], [19, 11], [19, 20], [5, 20]],
+        };
+    },
 };
 
 export const play: IconDefinition = {
     name: 'play',
     label: 'Play',
-    build: (gap) => ({
-        strokes: [[line(8, 6, 8, 4), line(8, 4, 16, 12), line(16, 12, 8, 20), line(8, 20, 8, 13)]],
-        detail: line(8, 6 + gap, 8, 13 - gap),
+    build: () => ({
+        strokes: [[line(8, 4, 12, 8)], [line(12, 8, 16, 12)], [line(16, 12, 12, 16)], [line(12, 16, 8, 20)]],
+        detail: line(8, 9, 8, 15),
         body: [[8, 4], [16, 12], [8, 20]],
     }),
 };

@@ -38,7 +38,7 @@ interface End {
 
 const seamLines = (segments: readonly Segment[], stroke: number): string[] => {
     const h = stroke / 2;
-    const ends: End[] = segments.flatMap((s) => {
+    const ends: End[] = segments.filter((s) => !samePoint(startOf(s), endOf(s))).flatMap((s) => {
         const [a, b] = outwardTangents(s);
         return [{ at: startOf(s), out: a }, { at: endOf(s), out: b }];
     });

@@ -1,6 +1,8 @@
 import { directionStyle, tone, toneOffsets } from './color.js';
 import type { ColorMode, DetailDirection } from './color.js';
 import type { IconDefinition } from './geometry.js';
+import { orbitOf } from './orbit.js';
+import type { Orbit } from './orbit.js';
 import { resolveIcon } from './resolve.js';
 import type { ResolveOptions } from './resolve.js';
 
@@ -32,6 +34,7 @@ export interface IconParts {
     readonly seams: readonly Shape[];
     readonly detail: Shape;
     readonly spin: boolean;
+    readonly orbit: Orbit | null;
 }
 
 const escape = (text: string): string =>
@@ -59,6 +62,7 @@ export const iconParts = (definition: IconDefinition, options: RenderOptions = {
         svg.height = String(options.size);
     }
     if (options.detailDirection) svg.style = directionStyle(options.detailDirection);
+    const orbit = definition.spin === true ? orbitOf(resolved.geometry, resolved.gap) : null;
     return {
         svg,
         fill: solid
@@ -68,11 +72,12 @@ export const iconParts = (definition: IconDefinition, options: RenderOptions = {
             ? resolved.tiles.map((t) => ({ points: t.points, delay: t.delay, ...tone(t.tone, direction, mode) }))
             : [],
         strokes: resolved.strokes,
-        seams: options.seams === false
+        seams: options.seams === false || orbit
             ? []
             : resolved.seams.map((d) => ({ d, ...seam, width: Math.round(Math.max(0.1, resolved.stroke * 0.08) * 100) / 100 })),
         detail: { d: resolved.detailPath, ...detail },
         spin: definition.spin === true,
+        orbit,
     };
 };
 
@@ -87,12 +92,19 @@ export const renderIcon = (definition: IconDefinition, options: RenderOptions = 
     const tiles = parts.tiles.length
         ? `<g stroke="none">${parts.tiles.map((t) => `<polygon points="${t.points}" fill="${t.attribute}"${css('fill', t.style)}/>`).join('')}</g>`
         : '';
-    const strokes = parts.strokes.map((d) => `<path d="${d}"/>`).join('');
+    const orbit = parts.orbit;
+    const animate = (name: string, values: string, times: string, extra = ''): string =>
+        `<animate attributeName="${name}" values="${values}" keyTimes="${times}"${extra} dur="${(orbit?.lap ?? 1) * 2}s" repeatCount="indefinite"/>`;
+    const strokes = parts.strokes.map((d, i) => {
+        const o = orbit?.strokes[i];
+        if (!o) return `<path d="${d}"/>`;
+        return `<path d="${d}" pathLength="${o.length}">${animate('stroke-dasharray', o.dasharray, o.keyTimes)}${animate('stroke-dashoffset', o.dashoffset, o.keyTimes)}${animate('opacity', '1;0;1', o.opacityTimes, ' calcMode="discrete"')}</path>`;
+    }).join('');
     const seams = parts.seams.map((s) => `<path d="${s.d ?? ''}" stroke="${s.attribute}"${css('stroke', s.style)} stroke-width="${s.width ?? 0}" stroke-linecap="butt"/>`).join('');
     const detail = `<path d="${parts.detail.d ?? ''}" stroke="${parts.detail.attribute}"${css('stroke', parts.detail.style)}/>`;
     const body = `${fill}${tiles}${strokes}${seams}${detail}`;
-    const content = parts.spin
-        ? `<g>${body}<animateTransform attributeName="transform" type="rotate" from="0 12 12" to="360 12 12" dur="1s" repeatCount="indefinite"/></g>`
-        : body;
+    const turn = `<animateTransform attributeName="transform" type="rotate" from="0 12 12" to="360 12 12" dur="${orbit?.lap ?? 1}s" repeatCount="indefinite"/>`;
+    const spun = parts.spin ? `<g>${body}${turn}</g>` : body;
+    const content = orbit ? `${fill}${tiles}${strokes}<g>${detail}${turn}</g>` : spun;
     return `<svg xmlns="http://www.w3.org/2000/svg" ${attributes} ${a11y}${content}</svg>`;
 };
