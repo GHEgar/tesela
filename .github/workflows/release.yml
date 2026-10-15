@@ -38,7 +38,9 @@ jobs:
               run: gh release view "$TAG" > /dev/null 2>&1 || gh release create "$TAG" --title "tesela ${TAG#v}" --notes-file notes.md --verify-tag
               env:
                   GH_TOKEN: ${{ github.token }}
-            - name: npm, with trusted publishing
+            - name: npm
+              env:
+                  NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
               run: |
                   name=$(node -p "require('./package.json').name")
                   npm view "$name@${TAG#v}" version > /dev/null 2>&1 || npm publish --provenance --access public
