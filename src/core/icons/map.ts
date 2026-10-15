@@ -1,5 +1,5 @@
 import { arc, chain, chordAngle, circleBody, line, part, rect, rectBody, ring, toward } from '../draw.js';
-import { distanceToSegment, polar, toDegrees } from '../geometry.js';
+import { distanceToSegment, endOf, polar, toDegrees } from '../geometry.js';
 import type { IconDefinition, Point, Segment } from '../geometry.js';
 
 type Edge = readonly [Point, Point];
@@ -104,17 +104,32 @@ export const polyline: IconDefinition = {
 export const polygon: IconDefinition = {
     name: 'polygon',
     label: 'Polygon',
+    freeAngles: true,
     build: (gap) => {
         const r = 2.2;
-        const g = gap + 1;
-        return {
-            strokes: [[
-                line(19 - r - g, 19, 5 + r, 19), arc(5, 19, r, 0, 270), line(5, 19 - r, 5, 5 + r), arc(5, 5, r, 90, 360),
-                line(5 + r, 5, 19 - r, 5), arc(19, 5, r, 180, 450), line(19, 5 + r, 19, 19 - r - g),
-            ]],
-            detail: disc(19, 19, r),
-            body: rectBody(5, 5, 19, 19),
-        };
+        const n: Point[] = [[19, 19], [6, 19], [4.5, 7], [17, 4.5]];
+        const node = (i: number): Point => n[(i + n.length) % n.length] ?? [12, 12];
+        const center: Point = [n.reduce((s, p) => s + p[0], 0) / n.length, n.reduce((s, p) => s + p[1], 0) / n.length];
+        const path: Segment[] = [];
+        let at = toward(node(0), node(1), r + gap + 1);
+        for (const i of [1, 2, 3]) {
+            const from = angleOf(node(i), node(i - 1));
+            const out = angleOf(node(i), node(i + 1));
+            let cw = out;
+            while (cw <= from) cw += 360;
+            let ccw = out;
+            while (ccw >= from) ccw -= 360;
+            const far = (end: number): number => {
+                const [x, y] = polar(node(i), r, (from + end) / 2);
+                return Math.hypot(x - center[0], y - center[1]);
+            };
+            const turn = arc(...node(i), r, from, far(cw) > far(ccw) ? cw : ccw);
+            const entry = polar(node(i), r, from);
+            path.push(line(...at, ...entry), turn);
+            at = endOf(turn);
+        }
+        path.push(line(...at, ...toward(node(0), node(3), r + gap + 1)));
+        return { strokes: [path], detail: disc(...node(0), r), body: n };
     },
 };
 

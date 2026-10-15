@@ -1,10 +1,86 @@
-import { arc, chain, chordAngle, circleBody, line, rect, rectBody, rotate, toward } from '../draw.js';
-import type { IconDefinition, IconGeometry } from '../geometry.js';
+import { arc, bend, chain, chordAngle, circleBody, line, mirrorX, rect, rectBody, rotate, toward } from '../draw.js';
+import { endOf, round, startOf, toDegrees, unit } from '../geometry.js';
+import type { Arc, IconDefinition, IconGeometry, Point, Segment } from '../geometry.js';
 
 const verticalArrows = (gap: number): IconGeometry => ({
     strokes: [chain([12, 15], [12, 7], [16.5, 7], [12, 2.5], [7.5, 7]), [line(12, 21.5, 16.5, 17)]],
     detail: line(7.5, 17, ...toward([12, 21.5], [7.5, 17], gap)),
 });
+
+const fillet = (a: Point, b: Point, c: Point, r: number): Arc => {
+    const u1 = unit(a[0] - b[0], a[1] - b[1]);
+    const u2 = unit(c[0] - b[0], c[1] - b[1]);
+    const half = Math.acos(Math.max(-1, Math.min(1, u1[0] * u2[0] + u1[1] * u2[1]))) / 2;
+    const t = Math.min(r / Math.tan(half), 2.4);
+    const radius = t * Math.tan(half);
+    const bisector = unit(u1[0] + u2[0], u1[1] + u2[1]);
+    const reach = Math.hypot(t, radius);
+    const center: Point = [round(b[0] + bisector[0] * reach), round(b[1] + bisector[1] * reach)];
+    const angle = (u: Point): number => toDegrees(Math.atan2(b[1] + u[1] * t - center[1], b[0] + u[0] * t - center[0]));
+    const start = angle(u1);
+    let end = angle(u2);
+    const clockwise = u1[0] * u2[1] - u1[1] * u2[0] <= 0;
+    if (clockwise && end < start) end += 360;
+    if (!clockwise && end > start) end -= 360;
+    return arc(center[0], center[1], round(radius), start, end);
+};
+
+const rotation = (gap: number): IconGeometry => {
+    const h = Math.max(3.5, gap * Math.SQRT2);
+    const cx = 12 - (h - 3.5);
+    const e = cx + 7;
+    return {
+        strokes: [[arc(cx, 13, 7, 180, 360), line(e, 13, e - h, 13), line(e - h, 13, e, 13 + h)]],
+        detail: line(e + h, 13, ...toward([e, 13 + h], [e + h, 13], gap)),
+    };
+};
+
+export const rectangle: IconDefinition = {
+    name: 'rectangle',
+    label: 'Rectangle',
+    build: (gap) => ({
+        strokes: [chain([20, 6], [4, 6], [4, 18], [20, 18])],
+        detail: line(20, 6 + gap, 20, 18 - gap),
+        body: rectBody(4, 6, 20, 18),
+    }),
+};
+
+export const angle: IconDefinition = {
+    name: 'angle',
+    label: 'Angle',
+    freeAngles: true,
+    build: (gap) => {
+        const off = toDegrees(Math.asin(gap / 11));
+        return {
+            strokes: [chain([21, 19.5], [4, 19.5], [4 + 17 * Math.cos(Math.PI / 3), 19.5 - 17 * Math.sin(Math.PI / 3)])],
+            detail: arc(4, 19.5, 11, -60 + off, -off),
+        };
+    },
+};
+
+export const freehand: IconDefinition = {
+    name: 'freehand',
+    label: 'Freehand',
+    freeAngles: true,
+    build: (gap) => {
+        const points: Point[] = [[12, 4], [4, 4], [19, 12.5], [6.5, 10], [14, 16.5], [7, 15.5], [6.1, 19]];
+        const path: Segment[] = [];
+        let at: Point = [12, 4];
+        points.slice(1, -1).forEach((b, i) => {
+            const turn = fillet(points[i] ?? b, b, points[i + 2] ?? b, 2);
+            const to = startOf(turn);
+            path.push(i ? line(...at, ...to) : bend(at, to, 16, false), turn);
+            at = endOf(turn);
+        });
+        path.push(line(...at, 6.1, 19));
+        const u = unit(15, 8.5);
+        const s: Point = [12 + gap + 2.6, 5.2];
+        return { strokes: [path], detail: line(s[0], s[1], s[0] + u[0] * 2.5, s[1] + u[1] * 2.5) };
+    },
+};
+
+export const rotateRight: IconDefinition = { name: 'rotateRight', label: 'Rotate right', build: rotation };
+export const rotateLeft: IconDefinition = { name: 'rotateLeft', label: 'Rotate left', build: (gap) => mirrorX(rotation(gap)) };
 
 export const crop: IconDefinition = {
     name: 'crop',
@@ -126,4 +202,7 @@ export const swap: IconDefinition = {
     },
 };
 
-export const tools = [crop, columns, text, opacity, swipe, arrowsVertical, arrowsHorizontal, focus, move, pointer, stop, undock, swap];
+export const tools = [
+    crop, columns, text, opacity, swipe, arrowsVertical, arrowsHorizontal, focus, move, pointer, stop, undock, swap,
+    rectangle, angle, freehand, rotateRight, rotateLeft,
+];

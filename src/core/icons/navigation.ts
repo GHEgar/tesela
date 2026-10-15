@@ -44,6 +44,17 @@ export const chevronLeft: IconDefinition = { name: 'chevronLeft', label: 'Previo
 export const chevronRight: IconDefinition = { name: 'chevronRight', label: 'Next', build: (gap) => rotate(chevron(gap), 3) };
 export const arrowRight: IconDefinition = { name: 'arrowRight', label: 'Forward', build: arrow };
 export const arrowLeft: IconDefinition = { name: 'arrowLeft', label: 'Back', build: (gap) => mirrorX(arrow(gap)) };
+export const arrowUp: IconDefinition = { name: 'arrowUp', label: 'Arrow up', build: (gap) => rotate(arrow(gap), 3) };
+export const arrowDown: IconDefinition = { name: 'arrowDown', label: 'Arrow down', build: (gap) => rotate(arrow(gap), 1) };
+
+export const cornerDownRight: IconDefinition = {
+    name: 'cornerDownRight',
+    label: 'Subitem',
+    build: (gap) => ({
+        strokes: [chain([6, 4], [6, 14], [15, 14], [15, 18.5], [19.5, 14])],
+        detail: line(15, 9.5, ...toward([19.5, 14], [15, 9.5], gap)),
+    }),
+};
 
 export const home: IconDefinition = {
     name: 'home',
@@ -85,5 +96,6 @@ export const collapse: IconDefinition = {
 };
 
 export const navigation = [
-    menu, chevronDown, chevronUp, chevronLeft, chevronRight, arrowLeft, arrowRight, home, expand, collapse,
+    menu, chevronDown, chevronUp, chevronLeft, chevronRight, arrowLeft, arrowRight, arrowUp, arrowDown, home, expand,
+    collapse, cornerDownRight,
 ];

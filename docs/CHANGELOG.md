@@ -5,6 +5,19 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/) y 
 
 ## [No publicado]
 
+## [0.4.0] - 2026-10-15
+
+### Agregado
+
+- Ocho íconos: `rectangle`, `angle`, `freehand`, `rotateRight` y `rotateLeft` en herramientas, y `arrowUp`,
+  `arrowDown` y `cornerDownRight` en navegación. Son 98 en total.
+
+### Cambiado
+
+- `polygon` es un cuadrilátero irregular, para que no se confunda con `rectangle`.
+- `copy` vuelve a las dos hojas cuadradas: la de atrás es el detalle y solo se dibuja donde no la tapa la de
+  enfrente.
+
 ## [0.3.0] - 2026-10-15
 
 ### Agregado

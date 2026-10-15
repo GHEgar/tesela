@@ -1,5 +1,5 @@
 import { arc, chain, circleBody, line, mirrorX, mirrorY, split, toward } from '../draw.js';
-import { distanceToSegment, polar } from '../geometry.js';
+import { polar } from '../geometry.js';
 import type { IconDefinition, IconGeometry, Line, Point, Segment } from '../geometry.js';
 
 const LENS: Point = [10.5, 10.5];
@@ -18,13 +18,6 @@ const hook = (base: Point, dx: number, size: number, gap: number): { head: Line[
     const tip: Point = [base[0] + dx * s, base[1]];
     const outer: Point = [base[0], base[1] - s];
     return { head: chain(base, [base[0], base[1] + s], tip), detail: line(...outer, ...toward(outer, tip, s * Math.SQRT2 - gap)) };
-};
-
-const clearUntil = (from: Point, to: Point, edges: readonly (readonly [Point, Point])[], gap: number): Point => {
-    const at = (k: number): Point => [from[0] + (to[0] - from[0]) * k, from[1] + (to[1] - from[1]) * k];
-    let t = 0;
-    while (t < 1 && edges.every(([a, b]) => distanceToSegment(at(t + 0.002), a, b) >= gap)) t += 0.002;
-    return at(t);
 };
 
 const download = (gap: number): IconGeometry => ({
@@ -145,18 +138,11 @@ export const trash: IconDefinition = {
 export const copy: IconDefinition = {
     name: 'copy',
     label: 'Copy',
-    freeAngles: true,
-    build: (gap) => {
-        const front: Point[] = [[14.25, 9.5], [20.5, 20.5], [8, 20.5]];
-        const [f0, f1, f2] = front as [Point, Point, Point];
-        const edges: [Point, Point][] = [[f0, f1], [f1, f2], [f2, f0]];
-        const [b0, b1, b2] = front.map(([x, y]): Point => [x - 3, y - 3]) as [Point, Point, Point];
-        return {
-            strokes: [chain(f1, f0, f2, f1)],
-            detail: chain(clearUntil(b0, b1, edges, gap), b0, b2, clearUntil(b2, b1, edges, gap)),
-            body: front,
-        };
-    },
+    build: (gap) => ({
+        strokes: [chain([9, 9], [20, 9], [20, 20], [9, 20], [9, 9])],
+        detail: chain([15, 9 - gap], [15, 4], [4, 4], [4, 15], [9 - gap, 15]),
+        body: [[9, 9], [20, 9], [20, 20], [9, 20]],
+    }),
 };
 
 export const refresh: IconDefinition = {

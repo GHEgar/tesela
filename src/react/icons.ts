@@ -1,11 +1,12 @@
 import {
-    alert, apps, arrowLeft, arrowRight, arrowsHorizontal, arrowsVertical, basemap, bell, chat, check, chevronDown,
-    chevronLeft, chevronRight, chevronUp, circle, close, collapse, columns, compass, copy, crop, cube, diagram,
-    documentIcon, downloadIcon, drone, edit, expand, eye, eyeOff, filter, focus, folder, formula, globe, hexbin,
-    history, home, hummingbird, info, layers, lineChart, link, lock, mail, menu, microphone, minus, move, offline,
-    opacity, pause, phone, pin, play, plug, plus, point, pointer, polygon, polyline, ranking, raster, redo, refresh,
-    ruler, search, send, settings, share, shareNodes, spinner, star, stats, stop, swap, swipe, table, text,
-    thumbDown, thumbUp, translate, trash, undoIcon, undock, unlock, upload, user, zoomIn, zoomOut,
+    alert, angle, apps, arrowDown, arrowLeft, arrowRight, arrowsHorizontal, arrowsVertical, arrowUp, basemap, bell,
+    chat, check, chevronDown, chevronLeft, chevronRight, chevronUp, circle, close, collapse, columns, compass, copy,
+    cornerDownRight, crop, cube, diagram, documentIcon, downloadIcon, drone, edit, expand, eye, eyeOff, filter, focus,
+    folder, formula, freehand, globe, hexbin, history, home, hummingbird, info, layers, lineChart, link, lock, mail,
+    menu, microphone, minus, move, offline, opacity, pause, phone, pin, play, plug, plus, point, pointer, polygon,
+    polyline, ranking, raster, rectangle, redo, refresh, rotateLeft, rotateRight, ruler, search, send, settings, share,
+    shareNodes, spinner, star, stats, stop, swap, swipe, table, text, thumbDown, thumbUp, translate, trash, undock,
+    undoIcon, unlock, upload, user, zoomIn, zoomOut,
 } from 'tesela';
 import { createIcon } from './IconSvg.js';
 
@@ -16,6 +17,9 @@ export const ChevronLeft = createIcon(chevronLeft);
 export const ChevronRight = createIcon(chevronRight);
 export const ArrowRight = createIcon(arrowRight);
 export const ArrowLeft = createIcon(arrowLeft);
+export const ArrowUp = createIcon(arrowUp);
+export const ArrowDown = createIcon(arrowDown);
+export const CornerDownRight = createIcon(cornerDownRight);
 export const Home = createIcon(home);
 export const Expand = createIcon(expand);
 export const Collapse = createIcon(collapse);
@@ -83,6 +87,11 @@ export const Pointer = createIcon(pointer);
 export const Stop = createIcon(stop);
 export const Undock = createIcon(undock);
 export const Swap = createIcon(swap);
+export const Rectangle = createIcon(rectangle);
+export const Angle = createIcon(angle);
+export const Freehand = createIcon(freehand);
+export const RotateRight = createIcon(rotateRight);
+export const RotateLeft = createIcon(rotateLeft);
 export const Ranking = createIcon(ranking);
 export const LineChart = createIcon(lineChart);
 export const Hexbin = createIcon(hexbin);
