@@ -5,6 +5,13 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/) y 
 
 ## [No publicado]
 
+### Agregado
+
+- Nueve íconos de archivo por familia: `fileImage`, `fileVideo`, `fileText`, `fileTable`, `fileVector`,
+  `fileRaster`, `file3d`, `fileArchive` y `fileCode`. Parten de la hoja de `document` con el doblez como
+  detalle en el mismo lugar, así que al cambiar de formato solo cambia el signo de adentro. Comparten un
+  `nudge` para el centrado óptico. Son 113 en total.
+
 ## [0.6.1] - 2026-10-16
 
 ### Corregido

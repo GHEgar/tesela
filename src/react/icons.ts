@@ -1,7 +1,8 @@
 import {
     alert, angle, apps, arrowDown, arrowLeft, arrowRight, arrowsHorizontal, arrowsVertical, arrowUp, basemap, bell,
     chat, check, checkCircle, chevronDown, chevronLeft, chevronRight, chevronUp, circle, close, closeCircle, collapse, columns, compass, copy,
-    cornerDownRight, crop, cube, diagram, documentIcon, downloadIcon, drone, edit, expand, eye, eyeOff, filter, focus,
+    cornerDownRight, crop, cube, diagram, documentIcon, downloadIcon, drone, edit, expand, eye, eyeOff, file3d, fileArchive,
+    fileCode, fileImage, fileRaster, fileTable, fileText, fileVector, fileVideo, filter, focus,
     folder, formula, freehand, globe, help, hexbin, history, home, hummingbird, info, infoCircle, layers, lineChart, link, lock, login, logout, mail,
     menu, microphone, minus, move, offline, opacity, pause, phone, pin, play, plug, plus, point, pointer, polygon,
     polyline, ranking, raster, rectangle, redo, refresh, rotateLeft, rotateRight, ruler, search, send, settings, share,
@@ -21,6 +22,15 @@ export const ArrowUp = createIcon(arrowUp);
 export const ArrowDown = createIcon(arrowDown);
 export const CornerDownRight = createIcon(cornerDownRight);
 export const Logout = createIcon(logout);
+export const FileImage = createIcon(fileImage);
+export const FileVideo = createIcon(fileVideo);
+export const FileText = createIcon(fileText);
+export const FileTable = createIcon(fileTable);
+export const FileVector = createIcon(fileVector);
+export const FileRaster = createIcon(fileRaster);
+export const File3d = createIcon(file3d);
+export const FileArchive = createIcon(fileArchive);
+export const FileCode = createIcon(fileCode);
 export const Login = createIcon(login);
 export const Home = createIcon(home);
 export const Expand = createIcon(expand);
