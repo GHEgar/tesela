@@ -5,6 +5,8 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/) y 
 
 ## [No publicado]
 
+## [0.7.0] - 2026-10-16
+
 ### Agregado
 
 - Nueve íconos de archivo por familia: `fileImage`, `fileVideo`, `fileText`, `fileTable`, `fileVector`,
