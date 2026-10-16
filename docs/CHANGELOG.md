@@ -5,6 +5,12 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/) y 
 
 ## [No publicado]
 
+### Agregado
+
+- Cuatro íconos de estado en círculo: `infoCircle`, `help`, `checkCircle` y `closeCircle`. Comparten el aro
+  en dos arcos con el detalle como tramo suelto en la misma posición; `info` suelto se queda. Son 102 en
+  total.
+
 ## [0.4.0] - 2026-10-15
 
 ### Agregado

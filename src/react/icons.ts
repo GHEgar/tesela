@@ -1,8 +1,8 @@
 import {
     alert, angle, apps, arrowDown, arrowLeft, arrowRight, arrowsHorizontal, arrowsVertical, arrowUp, basemap, bell,
-    chat, check, chevronDown, chevronLeft, chevronRight, chevronUp, circle, close, collapse, columns, compass, copy,
+    chat, check, checkCircle, chevronDown, chevronLeft, chevronRight, chevronUp, circle, close, closeCircle, collapse, columns, compass, copy,
     cornerDownRight, crop, cube, diagram, documentIcon, downloadIcon, drone, edit, expand, eye, eyeOff, filter, focus,
-    folder, formula, freehand, globe, hexbin, history, home, hummingbird, info, layers, lineChart, link, lock, mail,
+    folder, formula, freehand, globe, help, hexbin, history, home, hummingbird, info, infoCircle, layers, lineChart, link, lock, mail,
     menu, microphone, minus, move, offline, opacity, pause, phone, pin, play, plug, plus, point, pointer, polygon,
     polyline, ranking, raster, rectangle, redo, refresh, rotateLeft, rotateRight, ruler, search, send, settings, share,
     shareNodes, spinner, star, stats, stop, swap, swipe, table, text, thumbDown, thumbUp, translate, trash, undock,
@@ -46,6 +46,10 @@ export const Settings = createIcon(settings);
 export const Check = createIcon(check);
 export const Alert = createIcon(alert);
 export const Info = createIcon(info);
+export const InfoCircle = createIcon(infoCircle);
+export const Help = createIcon(help);
+export const CheckCircle = createIcon(checkCircle);
+export const CloseCircle = createIcon(closeCircle);
 export const Spinner = createIcon(spinner);
 export const Lock = createIcon(lock);
 export const Unlock = createIcon(unlock);

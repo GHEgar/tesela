@@ -1,4 +1,4 @@
-import { arc, chordAngle, line, part, split } from '../draw.js';
+import { arc, chordAngle, circleBody, line, part, split } from '../draw.js';
 import type { IconDefinition, Segment } from '../geometry.js';
 
 const lockBody = (): Segment[][] => [
@@ -43,6 +43,75 @@ export const info: IconDefinition = {
         strokes: [[line(10, 10, 12, 10)], [line(12, 10, 12, 19)], [line(9, 19, 12, 19)], [line(12, 19, 15, 19)]],
         detail: [arc(12, 7.8 - gap, 1.4, 0, 180), arc(12, 7.8 - gap, 1.4, 180, 360)],
     }),
+};
+
+const RING = 9;
+
+const statusRing = (gap: number): { arcs: Segment[][]; detail: Segment } => {
+    const g = gap / RING * 180 / Math.PI;
+    return {
+        arcs: [[arc(12, 12, RING, 315 + g, 495)], [arc(12, 12, RING, 495, 645 - g)]],
+        detail: arc(12, 12, RING, 285, 315),
+    };
+};
+
+export const infoCircle: IconDefinition = {
+    name: 'infoCircle',
+    label: 'Info',
+    build: (gap) => {
+        const ring = statusRing(gap);
+        return {
+            strokes: [...ring.arcs, [line(12, 8.9 + gap, 12, 16.5)], [line(12, 7.4, 12, 7.4)]],
+            detail: ring.detail,
+            body: circleBody(12, 12, RING),
+        };
+    },
+};
+
+export const help: IconDefinition = {
+    name: 'help',
+    label: 'Help',
+    freeAngles: true,
+    build: (gap) => {
+        const ring = statusRing(gap);
+        const a = 40 * Math.PI / 180;
+        const end = [12 + 2.7 * Math.cos(a), 9.6 + 2.7 * Math.sin(a)] as const;
+        return {
+            strokes: [
+                ...ring.arcs,
+                [arc(12, 9.6, 2.7, 195, 400), line(end[0], end[1], 12, 12.6), line(12, 12.6, 12, 13.2)],
+                [line(12, 14.7 + gap, 12, 14.7 + gap)],
+            ],
+            detail: ring.detail,
+            body: circleBody(12, 12, RING),
+        };
+    },
+};
+
+export const checkCircle: IconDefinition = {
+    name: 'checkCircle',
+    label: 'Done',
+    build: (gap) => {
+        const ring = statusRing(gap);
+        return {
+            strokes: [...ring.arcs, [line(7.8, 12.3, 10.6, 15.1)], [line(10.6, 15.1, 16.2, 9.5)]],
+            detail: ring.detail,
+            body: circleBody(12, 12, RING),
+        };
+    },
+};
+
+export const closeCircle: IconDefinition = {
+    name: 'closeCircle',
+    label: 'Error',
+    build: (gap) => {
+        const ring = statusRing(gap);
+        return {
+            strokes: [...ring.arcs, [line(8.8, 8.8, 15.2, 15.2)], [line(15.2, 8.8, 8.8, 15.2)]],
+            detail: ring.detail,
+            body: circleBody(12, 12, RING),
+        };
+    },
 };
 
 export const spinner: IconDefinition = {
@@ -102,4 +171,4 @@ export const pause: IconDefinition = {
     }),
 };
 
-export const status = [check, alert, info, spinner, lock, unlock, play, pause];
+export const status = [check, checkCircle, alert, info, infoCircle, help, closeCircle, spinner, lock, unlock, play, pause];

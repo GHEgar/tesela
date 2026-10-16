@@ -25,7 +25,7 @@ npm install tesela
 
 | Entry | What it is | Needs |
 |---|---|---|
-| `tesela` | Framework-free core: 98 icon definitions, geometry, rules, `renderIcon` to SVG strings | nothing |
+| `tesela` | Framework-free core: 102 icon definitions, geometry, rules, `renderIcon` to SVG strings | nothing |
 | `tesela/react` | One component per icon, `Icon` by name and `IconTransition` | `react >= 19` |
 | `tesela/sprite.svg` | SVG sprite with a `<symbol>` per icon and per tiled, filled and duotone icon | nothing |
 
@@ -107,7 +107,7 @@ It returns a list of `{ name, problem }`; an empty list means every icon follows
 
 ## Icons
 
-98 icons in eight groups: navigation, actions, status, objects, map, tools, content and the hummingbird. The core exports
+102 icons in eight groups: navigation, actions, status, objects, map, tools, content and the hummingbird. The core exports
 each definition in camelCase (`search`, `zoomIn`, `eyeOff`), plus `icons`, `iconNames` and
 `getIcon(name)`. React exports one component per icon in PascalCase (`Search`, `ZoomIn`, `EyeOff`).
 
