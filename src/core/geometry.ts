@@ -30,6 +30,7 @@ export interface IconDefinition {
     readonly build: (gap: number) => IconGeometry;
     readonly freeAngles?: boolean;
     readonly spin?: boolean;
+    readonly nudge?: Point;
 }
 
 export const detailSegments = (geometry: IconGeometry): readonly Segment[] =>
@@ -78,9 +79,24 @@ export const fourStrokes = (strokes: readonly (readonly Segment[])[]): Segment[]
     return out;
 };
 
+const shiftPoint = ([x, y]: Point, [dx, dy]: Point): Point => [round(x + dx), round(y + dy)];
+
+const shiftSegment = (s: Segment, d: Point): Segment => s.kind === 'line'
+    ? { ...s, from: shiftPoint(s.from, d), to: shiftPoint(s.to, d) }
+    : { ...s, center: shiftPoint(s.center, d) };
+
+const shift = (geometry: IconGeometry, d: Point): IconGeometry => ({
+    strokes: geometry.strokes.map((chain) => chain.map((s) => shiftSegment(s, d))),
+    detail: Array.isArray(geometry.detail)
+        ? (geometry.detail as readonly Segment[]).map((s) => shiftSegment(s, d))
+        : shiftSegment(geometry.detail as Segment, d),
+    ...(geometry.body ? { body: geometry.body.map((p) => shiftPoint(p, d)) } : {}),
+});
+
 export const geometryOf = (definition: IconDefinition, gap: number): IconGeometry => {
     const built = definition.build(gap);
-    return { ...built, strokes: fourStrokes(built.strokes) };
+    const placed = definition.nudge ? shift(built, definition.nudge) : built;
+    return { ...placed, strokes: fourStrokes(placed.strokes) };
 };
 export const toRadians = (degrees: number): number => degrees * Math.PI / 180;
 export const toDegrees = (radians: number): number => radians * 180 / Math.PI;

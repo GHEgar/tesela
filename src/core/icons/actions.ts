@@ -158,12 +158,13 @@ export const refresh: IconDefinition = {
     },
 };
 
-export const undoIcon: IconDefinition = { name: 'undo', label: 'Undo', build: undo };
-export const redo: IconDefinition = { name: 'redo', label: 'Redo', build: (gap) => mirrorX(undo(gap)) };
+export const undoIcon: IconDefinition = { name: 'undo', label: 'Undo', nudge: [-1, -0.25], build: undo };
+export const redo: IconDefinition = { name: 'redo', label: 'Redo', nudge: [1, -0.25], build: (gap) => mirrorX(undo(gap)) };
 
 export const history: IconDefinition = {
     name: 'history',
     label: 'History',
+    nudge: [0.75, -1.5],
     freeAngles: true,
     build: (gap) => {
         const e = polar([12, 13], 7.5, 210);
@@ -204,6 +205,7 @@ export const share: IconDefinition = {
 export const link: IconDefinition = {
     name: 'link',
     label: 'Link',
+    nudge: [0.75, 1.5],
     build: (gap) => {
         const x = 8.5 + gap;
         const right = Math.max(14, x + gap);

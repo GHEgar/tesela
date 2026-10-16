@@ -81,6 +81,7 @@ export const expand: IconDefinition = {
 export const collapse: IconDefinition = {
     name: 'collapse',
     label: 'Collapse',
+    nudge: [-1.25, 1],
     freeAngles: true,
     build: (gap) => {
         const top = 12 - (gap + 1) / 2;
@@ -103,12 +104,14 @@ const doorArrow = (gap: number, frame: Point[], x0: number, x: number): IconGeom
 export const logout: IconDefinition = {
     name: 'logout',
     label: 'Log out',
+    nudge: [0.25, 0],
     build: (gap) => doorArrow(gap, [[13, 7.5], [13, 4], [5, 4], [5, 20], [13, 20], [13, 16.5]], 9.5, 16),
 };
 
 export const login: IconDefinition = {
     name: 'login',
     label: 'Log in',
+    nudge: [-1.25, 0],
     build: (gap) => doorArrow(gap, [[9, 6.5], [9, 4], [20.5, 4], [20.5, 20], [9, 20], [9, 17.5]], 3, 12.5),
 };
 

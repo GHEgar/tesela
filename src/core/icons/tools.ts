@@ -48,6 +48,7 @@ export const rectangle: IconDefinition = {
 export const angle: IconDefinition = {
     name: 'angle',
     label: 'Angle',
+    nudge: [0.25, -1.75],
     freeAngles: true,
     build: (gap) => {
         const off = toDegrees(Math.asin(gap / 11));
@@ -61,6 +62,7 @@ export const angle: IconDefinition = {
 export const freehand: IconDefinition = {
     name: 'freehand',
     label: 'Freehand',
+    nudge: [0.5, 1.25],
     freeAngles: true,
     build: (gap) => {
         const points: Point[] = [[12, 4], [4, 4], [19, 12.5], [6.5, 10], [14, 16.5], [7, 15.5], [6.1, 19]];
@@ -79,8 +81,14 @@ export const freehand: IconDefinition = {
     },
 };
 
-export const rotateRight: IconDefinition = { name: 'rotateRight', label: 'Rotate right', build: rotation };
-export const rotateLeft: IconDefinition = { name: 'rotateLeft', label: 'Rotate left', build: (gap) => mirrorX(rotation(gap)) };
+export const rotateRight: IconDefinition = { name: 'rotateRight', label: 'Rotate right', nudge: [-2, 1.25], build: rotation };
+
+export const rotateLeft: IconDefinition = {
+    name: 'rotateLeft',
+    label: 'Rotate left',
+    nudge: [2, 1.25],
+    build: (gap) => mirrorX(rotation(gap)),
+};
 
 export const crop: IconDefinition = {
     name: 'crop',
@@ -162,6 +170,7 @@ export const move: IconDefinition = {
 export const pointer: IconDefinition = {
     name: 'pointer',
     label: 'Pointer',
+    nudge: [1.5, 0.5],
     freeAngles: true,
     build: () => ({
         strokes: [chain([6, 19], [6, 3], [17, 14])],
@@ -183,6 +192,7 @@ export const stop: IconDefinition = {
 export const undock: IconDefinition = {
     name: 'undock',
     label: 'Undock',
+    nudge: [0.75, -0.75],
     build: (gap) => ({
         strokes: [chain([11, 9], [3, 9], [3, 21], [15, 21], [15, 13]), chain([8.5, 15.5], [17, 7], [14, 4], [20, 4])],
         detail: line(20, 10, 20, 4 + gap),

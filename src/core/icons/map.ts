@@ -22,6 +22,7 @@ const edgesOf = (t: readonly Point[]): Edge[] =>
 export const layers: IconDefinition = {
     name: 'layers',
     label: 'Layers',
+    nudge: [0, -1.25],
     freeAngles: true,
     build: (gap) => {
         const d = 1 + 1.25 * gap;
@@ -163,6 +164,7 @@ export const drone: IconDefinition = {
 export const stats: IconDefinition = {
     name: 'stats',
     label: 'Statistics',
+    nudge: [0.25, -2.25],
     build: (gap) => ({
         strokes: [[line(3, 18, 7, 14)], [line(7, 14, 10, 17)], [line(10, 17, 14, 13)], [line(14, 13, 16, 15)]],
         detail: part(16, 15, 21, 10, Math.max(gap, 1.5 * Math.SQRT2)),
@@ -206,6 +208,7 @@ export const compass: IconDefinition = {
 export const hummingbird: IconDefinition = {
     name: 'hummingbird',
     label: 'Hummingbird',
+    nudge: [0.75, -1.25],
     freeAngles: true,
     build: (gap) => {
         const head: Point = [14.5, 9.5];

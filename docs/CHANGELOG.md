@@ -5,6 +5,17 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/) y 
 
 ## [No publicado]
 
+## [0.6.1] - 2026-10-16
+
+### Corregido
+
+- Centrado óptico: `logout` y `login` y otros 19 íconos se veían corridos en su caja de 24 (`collapse`, `undo`,
+  `redo`, `history`, `link`, `globe`, `layers`, `stats`, `pointer`, `undock`, `angle`, `freehand`,
+  `rotateRight`, `rotateLeft`, `ranking`, `lineChart`, `translate`, `shareNodes` y `hummingbird`). El
+  dibujo no cambia: el ícono declara un `nudge` que `geometryOf` aplica a toda la geometría.
+- Una prueba mide el centro óptico de cada ícono (punto medio entre el centro de la caja y el centro de masa
+  por longitud de trazo) y falla si se aleja más de 0.5 del centro del viewBox.
+
 ## [0.6.0] - 2026-10-16
 
 ### Agregado

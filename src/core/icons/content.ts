@@ -17,6 +17,7 @@ const thumb = (): IconGeometry => ({
 export const ranking: IconDefinition = {
     name: 'ranking',
     label: 'Ranking',
+    nudge: [0.25, -2.25],
     build: () => ({
         strokes: [chain([9, 20], [9, 7], [15, 7], [15, 20]), chain([9, 12], [3, 12], [3, 20]), chain([15, 15], [21, 15], [21, 20]), [line(3, 20, 21, 20)]],
         detail: line(12, 10, 12, 14),
@@ -27,6 +28,7 @@ export const ranking: IconDefinition = {
 export const lineChart: IconDefinition = {
     name: 'lineChart',
     label: 'Line chart',
+    nudge: [0.75, -1],
     build: (gap) => {
         const d = gap / Math.SQRT2 + 0.1;
         return {
@@ -153,6 +155,7 @@ export const offline: IconDefinition = {
 export const translate: IconDefinition = {
     name: 'translate',
     label: 'Translate',
+    nudge: [0, -1.5],
     freeAngles: true,
     build: (gap) => ({
         strokes: [[line(4.5, 6 + gap, 10, 16)], [line(9.5, 6 + gap, 4, 16)], chain([12.5, 21], [16.75, 11], [21, 21]), [line(13.56, 18.5, 19.94, 18.5)]],
@@ -173,6 +176,7 @@ export const apps: IconDefinition = {
 export const shareNodes: IconDefinition = {
     name: 'shareNodes',
     label: 'Share',
+    nudge: [-0.75, 0],
     freeAngles: true,
     build: (gap) => {
         const r = 2.6;

@@ -142,6 +142,7 @@ export const chat: IconDefinition = {
 export const globe: IconDefinition = {
     name: 'globe',
     label: 'Web and social',
+    nudge: [-1, -0.25],
     build: (gap) => {
         const holder = 6.5 + gap;
         const reach = 6 - gap;
