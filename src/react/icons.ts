@@ -2,7 +2,7 @@ import {
     alert, angle, apps, arrowDown, arrowLeft, arrowRight, arrowsHorizontal, arrowsVertical, arrowUp, basemap, bell,
     chat, check, checkCircle, chevronDown, chevronLeft, chevronRight, chevronUp, circle, close, closeCircle, collapse, columns, compass, copy,
     cornerDownRight, crop, cube, diagram, documentIcon, downloadIcon, drone, edit, expand, eye, eyeOff, filter, focus,
-    folder, formula, freehand, globe, help, hexbin, history, home, hummingbird, info, infoCircle, layers, lineChart, link, lock, mail,
+    folder, formula, freehand, globe, help, hexbin, history, home, hummingbird, info, infoCircle, layers, lineChart, link, lock, login, logout, mail,
     menu, microphone, minus, move, offline, opacity, pause, phone, pin, play, plug, plus, point, pointer, polygon,
     polyline, ranking, raster, rectangle, redo, refresh, rotateLeft, rotateRight, ruler, search, send, settings, share,
     shareNodes, spinner, star, stats, stop, swap, swipe, table, text, thumbDown, thumbUp, translate, trash, undock,
@@ -20,6 +20,8 @@ export const ArrowLeft = createIcon(arrowLeft);
 export const ArrowUp = createIcon(arrowUp);
 export const ArrowDown = createIcon(arrowDown);
 export const CornerDownRight = createIcon(cornerDownRight);
+export const Logout = createIcon(logout);
+export const Login = createIcon(login);
 export const Home = createIcon(home);
 export const Expand = createIcon(expand);
 export const Collapse = createIcon(collapse);

@@ -95,7 +95,24 @@ export const collapse: IconDefinition = {
     },
 };
 
+const doorArrow = (gap: number, frame: Point[], x0: number, x: number): IconGeometry => ({
+    strokes: [chain(...frame), chain([x0, 12], [x, 12], [x, 16.5], [x + 4.5, 12])],
+    detail: line(x, 7.5, ...toward([x + 4.5, 12], [x, 7.5], gap)),
+});
+
+export const logout: IconDefinition = {
+    name: 'logout',
+    label: 'Log out',
+    build: (gap) => doorArrow(gap, [[13, 7.5], [13, 4], [5, 4], [5, 20], [13, 20], [13, 16.5]], 9.5, 16),
+};
+
+export const login: IconDefinition = {
+    name: 'login',
+    label: 'Log in',
+    build: (gap) => doorArrow(gap, [[9, 6.5], [9, 4], [20.5, 4], [20.5, 20], [9, 20], [9, 17.5]], 3, 12.5),
+};
+
 export const navigation = [
     menu, chevronDown, chevronUp, chevronLeft, chevronRight, arrowLeft, arrowRight, arrowUp, arrowDown, home, expand,
-    collapse, cornerDownRight,
+    collapse, cornerDownRight, logout, login,
 ];
