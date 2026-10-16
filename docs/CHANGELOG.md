@@ -5,6 +5,8 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/) y 
 
 ## [No publicado]
 
+## [0.6.0] - 2026-10-16
+
 ### Agregado
 
 - `logout` y `login` en navegación: el marco de una puerta con retornos y la flecha del set que sale o
