@@ -1,6 +1,6 @@
 import { arc, bend, chain, clearArc, line, mirrorY, rect, rectBody, toward } from '../draw.js';
-import { polar } from '../geometry.js';
-import type { IconDefinition, IconGeometry, Point } from '../geometry.js';
+import { polar, sampleSegment } from '../geometry.js';
+import type { IconDefinition, IconGeometry, Point, Segment } from '../geometry.js';
 
 const ring2 = (cx: number, cy: number, r: number) => [arc(cx, cy, r, 0, 180), arc(cx, cy, r, 180, 360)];
 
@@ -210,7 +210,24 @@ export const bell: IconDefinition = {
     }),
 };
 
+const fourPoint = (cx: number, cy: number, r: number): Segment[] => [
+    arc(cx + r, cy - r, r, 180, 90),
+    arc(cx + r, cy + r, r, 270, 180),
+    arc(cx - r, cy + r, r, 360, 270),
+    arc(cx - r, cy - r, r, 90, 0),
+];
+
+export const sparkle: IconDefinition = {
+    name: 'sparkle',
+    label: 'AI',
+    build: () => ({
+        strokes: [fourPoint(10.5, 13.5, 8)],
+        detail: fourPoint(18.5, 5.5, 2.5),
+        body: fourPoint(10.5, 13.5, 8).flatMap((s) => sampleSegment(s).slice(1)),
+    }),
+};
+
 export const content = [
     ranking, lineChart, hexbin, raster, microphone, diagram, plug, star, formula, thumbUp, thumbDown, offline,
-    translate, apps, shareNodes, bell,
+    translate, apps, shareNodes, bell, sparkle,
 ];

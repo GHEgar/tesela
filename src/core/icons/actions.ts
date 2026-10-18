@@ -1,4 +1,4 @@
-import { arc, chain, circleBody, line, mirrorX, mirrorY, split, toward } from '../draw.js';
+import { arc, chain, circleBody, line, mirrorX, mirrorY, rectBody, split, toward } from '../draw.js';
 import { polar } from '../geometry.js';
 import type { IconDefinition, IconGeometry, Line, Point, Segment } from '../geometry.js';
 
@@ -230,7 +230,21 @@ export const settings: IconDefinition = {
     }),
 };
 
+export const print: IconDefinition = {
+    name: 'print',
+    label: 'Print',
+    build: (gap) => ({
+        strokes: [
+            chain([7, 17], [4, 17], [4, 9], [20, 9], [20, 17], [17, 17]),
+            chain([7, 9], [7, 3], [17, 3], [17, 9]),
+            chain([7, 14], [17, 14], [17, 21], [7, 21], [7, 14]),
+        ],
+        detail: line(7 + gap, 17.5, 17 - gap, 17.5),
+        body: rectBody(4, 9, 20, 17),
+    }),
+};
+
 export const actions = [
     search, zoomIn, zoomOut, close, plus, minus, filter, downloadIcon, upload, edit, trash, copy, refresh,
-    undoIcon, redo, history, send, share, link, settings,
+    undoIcon, redo, history, send, share, link, settings, print,
 ];

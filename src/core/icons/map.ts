@@ -205,6 +205,34 @@ export const compass: IconDefinition = {
     },
 };
 
+export const locate: IconDefinition = {
+    name: 'locate',
+    label: 'My location',
+    build: () => ({
+        strokes: [
+            [line(12, 2, 12, 5), arc(12, 12, 7, 270, 360), line(19, 12, 22, 12)],
+            [line(12, 22, 12, 19), arc(12, 12, 7, 90, 180), line(5, 12, 2, 12)],
+            [arc(12, 12, 7, 0, 90)],
+            [arc(12, 12, 7, 180, 270)],
+        ],
+        detail: disc(12, 12, 2.5),
+        body: circleBody(12, 12, 7),
+    }),
+};
+
+export const legend: IconDefinition = {
+    name: 'legend',
+    label: 'Legend',
+    nudge: [1.25, 0],
+    build: (gap) => {
+        const row = (y: number): Segment[] => chain([7, y], [7, y + 1.75], [3.5, y + 1.75], [3.5, y - 1.75], [7, y - 1.75], [7, y], [20.5, y]);
+        return {
+            strokes: [row(5.25), [line(7 + gap, 12, 20.5, 12)], row(18.75)],
+            detail: chain([3.5, 10.25], [7, 10.25], [7, 13.75], [3.5, 13.75], [3.5, 10.25]),
+        };
+    },
+};
+
 export const hummingbird: IconDefinition = {
     name: 'hummingbird',
     label: 'Hummingbird',
@@ -228,5 +256,5 @@ export const hummingbird: IconDefinition = {
     },
 };
 
-export const mapIcons = [layers, basemap, ruler, point, polyline, polygon, circle, drone, stats, cube, compass];
+export const mapIcons = [layers, basemap, ruler, point, polyline, polygon, circle, drone, stats, cube, compass, locate, legend];
 export const brand = [hummingbird];

@@ -5,6 +5,12 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/) y 
 
 ## [No publicado]
 
+### Agregado
+
+- Diez íconos para los controles de un geoportal: `print` en acciones; `fullscreen` y `grip` en
+  herramientas; `locate` y `legend` en mapa; `calendar`, `gamepad`, `sun` y `moon` en objetos, y
+  `sparkle` en contenido. Son 123 en total.
+
 ## [0.7.0] - 2026-10-16
 
 ### Agregado

@@ -1,13 +1,14 @@
 import {
     alert, angle, apps, arrowDown, arrowLeft, arrowRight, arrowsHorizontal, arrowsVertical, arrowUp, basemap, bell,
-    chat, check, checkCircle, chevronDown, chevronLeft, chevronRight, chevronUp, circle, close, closeCircle, collapse, columns, compass, copy,
-    cornerDownRight, crop, cube, diagram, documentIcon, downloadIcon, drone, edit, expand, eye, eyeOff, file3d, fileArchive,
-    fileCode, fileImage, fileRaster, fileTable, fileText, fileVector, fileVideo, filter, focus,
-    folder, formula, freehand, globe, help, hexbin, history, home, hummingbird, info, infoCircle, layers, lineChart, link, lock, login, logout, mail,
-    menu, microphone, minus, move, offline, opacity, pause, phone, pin, play, plug, plus, point, pointer, polygon,
-    polyline, ranking, raster, rectangle, redo, refresh, rotateLeft, rotateRight, ruler, search, send, settings, share,
-    shareNodes, spinner, star, stats, stop, swap, swipe, table, text, thumbDown, thumbUp, translate, trash, undock,
-    undoIcon, unlock, upload, user, zoomIn, zoomOut,
+    calendar, chat, check, checkCircle, chevronDown, chevronLeft, chevronRight, chevronUp, circle, close, closeCircle,
+    collapse, columns, compass, copy, cornerDownRight, crop, cube, diagram, documentIcon, downloadIcon, drone, edit,
+    expand, eye, eyeOff, file3d, fileArchive, fileCode, fileImage, fileRaster, fileTable, fileText, fileVector,
+    fileVideo, filter, focus, folder, formula, freehand, fullscreen, gamepad, globe, grip, help, hexbin, history, home,
+    hummingbird, info, infoCircle, layers, legend, lineChart, link, locate, lock, login, logout, mail, menu, microphone,
+    minus, moon, move, offline, opacity, pause, phone, pin, play, plug, plus, point, pointer, polygon, polyline, print,
+    ranking, raster, rectangle, redo, refresh, rotateLeft, rotateRight, ruler, search, send, settings, share,
+    shareNodes, sparkle, spinner, star, stats, stop, sun, swap, swipe, table, text, thumbDown, thumbUp, translate,
+    trash, undock, undoIcon, unlock, upload, user, zoomIn, zoomOut,
 } from 'tesela';
 import { createIcon } from './IconSvg.js';
 
@@ -124,3 +125,13 @@ export const Translate = createIcon(translate);
 export const Apps = createIcon(apps);
 export const ShareNodes = createIcon(shareNodes);
 export const Bell = createIcon(bell);
+export const Print = createIcon(print);
+export const Fullscreen = createIcon(fullscreen);
+export const Grip = createIcon(grip);
+export const Locate = createIcon(locate);
+export const Legend = createIcon(legend);
+export const Calendar = createIcon(calendar);
+export const Gamepad = createIcon(gamepad);
+export const Sun = createIcon(sun);
+export const Moon = createIcon(moon);
+export const Sparkle = createIcon(sparkle);

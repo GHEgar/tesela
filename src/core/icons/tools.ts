@@ -212,7 +212,30 @@ export const swap: IconDefinition = {
     },
 };
 
+export const fullscreen: IconDefinition = {
+    name: 'fullscreen',
+    label: 'Fullscreen',
+    build: () => ({
+        strokes: [
+            chain([3, 8.5], [3, 4], [7.5, 4]),
+            chain([16.5, 4], [21, 4], [21, 8.5]),
+            chain([21, 15.5], [21, 20], [16.5, 20]),
+            chain([7.5, 20], [3, 20], [3, 15.5]),
+        ],
+        detail: chain([7.5, 8.5], [16.5, 8.5], [16.5, 15.5], [7.5, 15.5], [7.5, 8.5]),
+    }),
+};
+
+export const grip: IconDefinition = {
+    name: 'grip',
+    label: 'Drag',
+    build: () => ({
+        strokes: [[line(7, 8.5, 17, 8.5)], [line(7, 15.5, 17, 15.5)]],
+        detail: line(7, 12, 17, 12),
+    }),
+};
+
 export const tools = [
     crop, columns, text, opacity, swipe, arrowsVertical, arrowsHorizontal, focus, move, pointer, stop, undock, swap,
-    rectangle, angle, freehand, rotateRight, rotateLeft,
+    rectangle, angle, freehand, rotateRight, rotateLeft, fullscreen, grip,
 ];

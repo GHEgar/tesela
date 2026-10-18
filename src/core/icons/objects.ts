@@ -160,4 +160,62 @@ export const globe: IconDefinition = {
     },
 };
 
-export const objects = [table, eye, eyeOff, pin, user, documentIcon, folder, phone, mail, chat, globe];
+const MOON: Point = [16.5, 7.5];
+const BITE = Math.hypot(4.5, 4.5);
+
+export const calendar: IconDefinition = {
+    name: 'calendar',
+    label: 'Calendar',
+    build: () => ({
+        strokes: [rect(3.5, 5, 20.5, 21), [line(3.5, 10, 20.5, 10)], [line(8, 3, 8, 7)], [line(16, 3, 16, 7)]],
+        detail: chain([7, 14], [10, 14], [10, 17], [7, 17], [7, 14]),
+        body: rectBody(3.5, 5, 20.5, 21),
+    }),
+};
+
+export const gamepad: IconDefinition = {
+    name: 'gamepad',
+    label: 'Game',
+    build: () => ({
+        strokes: [
+            [line(7.5, 6.5, 16.5, 6.5), arc(16.5, 12, 5.5, 270, 450), line(16.5, 17.5, 7.5, 17.5), arc(7.5, 12, 5.5, 90, 270)],
+            [line(5, 12, 10, 12)],
+            [line(7.5, 9.5, 7.5, 14.5)],
+            [line(15.25, 13.25, 15.25, 13.25)],
+        ],
+        detail: line(17.75, 10.75, 17.75, 10.75),
+        body: [
+            ...Array.from({ length: 19 }, (_, i) => polar([16.5, 12], 5.5, 270 + i * 10)),
+            ...Array.from({ length: 19 }, (_, i) => polar([7.5, 12], 5.5, 90 + i * 10)),
+        ],
+    }),
+};
+
+export const sun: IconDefinition = {
+    name: 'sun',
+    label: 'Light mode',
+    freeAngles: true,
+    build: (gap) => {
+        const rays = Array.from({ length: 16 }, (_, i) => polar([12, 12], i % 2 ? 7 : 10.5, -90 + i * 22.5));
+        return {
+            strokes: [chain(...rays, rays[0] ?? [12, 1.5])],
+            detail: ring(12, 12, Math.min(4, 7 - gap - 0.1)),
+            body: rays,
+        };
+    },
+};
+
+export const moon: IconDefinition = {
+    name: 'moon',
+    label: 'Dark mode',
+    build: () => ({
+        strokes: [[arc(12, 12, 9, 0, 90), arc(12, 12, 9, 90, 180), arc(12, 12, 9, 180, 270), arc(...MOON, BITE, 225, 45)]],
+        detail: line(18.5, 5.5, 18.5, 5.5),
+        body: [
+            ...Array.from({ length: 28 }, (_, i) => polar([12, 12], 9, i * 10)),
+            ...Array.from({ length: 17 }, (_, i) => polar(MOON, BITE, 225 - i * 11.25)).slice(1, -1),
+        ],
+    }),
+};
+
+export const objects = [table, eye, eyeOff, pin, user, documentIcon, folder, phone, mail, chat, globe, calendar, gamepad, sun, moon];
