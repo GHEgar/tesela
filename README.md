@@ -144,6 +144,10 @@ import { Icon, Search } from 'tesela/react';
 
 `Icon` renders nothing when the name is unknown.
 
+Imports are tree-shaken: each component and each definition is dropped when unused, so ten icons
+cost about 6 kB gzipped, rendering engine included. `Icon` looks icons up by name, so it pulls in the
+whole set; import components by name when bundle size matters.
+
 ### Transitions
 
 ![Menu to close, play to pause, search to zoom and download to check, morphing in the line and tiled variants](.github/assets/transition.gif)

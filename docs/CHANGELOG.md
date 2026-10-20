@@ -11,6 +11,14 @@ Formato basado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/) y 
   herramientas; `locate` y `legend` en mapa; `calendar`, `gamepad`, `sun` y `moon` en objetos, y
   `sparkle` en contenido. Son 123 en total.
 
+### Cambiado
+
+- `tesela/react` se puede sacudir: cada componente es una función propia en vez del resultado de
+  `createIcon`, así que el bundler deja solo los íconos importados y sus definiciones. Diez íconos pasan
+  de 15.8 kB a 6.1 kB gzip con Vite y de 14.4 kB a 5.4 kB con esbuild. La API no cambia; `Icon` por
+  nombre sigue cargando el set completo.
+- Una prueba arma un bundle con dos íconos y falla si entra cualquier otra definición.
+
 ## [0.7.0] - 2026-10-16
 
 ### Agregado
